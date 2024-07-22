@@ -1,10 +1,8 @@
-import { Inter } from 'next/font/google';
+import React from 'react';
 
-const inter = Inter({ subsets: ['latin'] });
-
-const Signup = () => {
+const SignUp = () => {
   return (
-    <main className={`flex min-h-screen flex-col items-center p-24 ${inter.className}`}>
+    <main className={'flex min-h-screen flex-col items-center p-24'}>
       <div className="">
         <input type="text" placeholder="ID" />
       </div>
@@ -12,9 +10,16 @@ const Signup = () => {
         <input type="password" placeholder="Password" />
       </div>
       <div className="flex p-5 justify-between">
-        <button>로그인</button>
-        <button>회원가입</button>
+        <div>
+          <div>
+            <input type="text" placeholder="사용하실 닉네임을 작성하세요."></input>
+            <input type="text" placeholder="비밀번호를 입력하세요."></input>
+            <input type="text" placeholder="비밀번호를 다시 입력하세요."></input>
+          </div>
+        </div>
       </div>
     </main>
   );
 };
+
+export default SignUp;
