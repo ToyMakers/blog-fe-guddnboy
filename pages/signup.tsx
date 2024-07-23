@@ -32,15 +32,17 @@ const SignUp = () => {
       if (password !== passwordConfirm) {
         alert('비밀번호가 일치하지 않습니다.');
         return;
+      } else {
+        console.log({
+          username,
+          password,
+          passwordConfirm,
+          nickname,
+          introduction,
+        });
+        alert('회원가입이 완료되었습니다.');
+        router.push(path);
       }
-      console.log({
-        username,
-        password,
-        passwordConfirm,
-        nickname,
-        introduction,
-      });
-      router.push(path);
     }
   };
 
