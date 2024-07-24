@@ -50,7 +50,8 @@ const SignUp = () => {
       console.log(response.body);
       router.push('/login');
     } catch (error) {
-      alert(error.message);
+      console.error(error);
+      alert('회원가입에 실패했습니다.');
     }
   };
 

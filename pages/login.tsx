@@ -30,11 +30,16 @@ const Login = () => {
       if (!response.ok) {
         throw new Error('로그인에 실패했습니다.');
       }
-      alert('로그인에 성공했습니다.');
-      console.log(response.body);
+
+      const data = await response.json();
+      const { access_token } = data;
+      console.log(`access_token : ${access_token}`);
+      localStorage.setItem('access_token', access_token);
+
       navigateTo('/mainpage');
     } catch (error) {
-      alert(error.message);
+      console.error(error);
+      alert('로그인에 실패했습니다.');
     }
   };
 
