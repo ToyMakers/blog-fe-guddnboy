@@ -1,26 +1,69 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import useStore from '../store/store';
+import { Url } from 'next/dist/shared/lib/router/router';
 
 const Login = () => {
   const router = useRouter();
+  const { username, password, setUsername, setPassword } = useStore();
 
-  const navigateToSignUp = () => {
-    console.log('회원가입 페이지로 이동');
-    router.push('/signup');
+  const navigateTo = async (path: Url) => {
+    router.push(path);
+  };
+
+  const handleLogin = async () => {
+    if (username === '' || password === '') {
+      alert('아이디와 비밀번호를 입력해주세요');
+      return;
+    }
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('로그인에 실패했습니다.');
+      }
+      alert('로그인에 성공했습니다.');
+      console.log(response.body);
+      navigateTo('/mainpage');
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
     <div>
       <main className="flex min-h-screen flex-col items-center p-24">
         <div>
-          <input className="w-60 h-14 my-3" type="text" placeholder="ID" />
+          <input
+            className="w-60 h-14 my-3"
+            type="text"
+            placeholder="ID"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
         <div>
-          <input className="w-60 h-14 my-3" type="password" placeholder="Password" />
+          <input
+            className="w-60 h-14 my-3"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
-        <div className="w-60 h-14 bg-white">
-          <button className="w-30 h-14 px-8">로그인</button>
-          <button className="w-30 h-14 px-8" onClick={navigateToSignUp}>
+        <div className="w-60 h-14">
+          <button className="w-30 h-14 px-8" onClick={() => handleLogin()}>
+            로그인
+          </button>
+          <button className="w-30 h-14 px-8" onClick={() => navigateTo('/signup')}>
             회원가입
           </button>
         </div>
