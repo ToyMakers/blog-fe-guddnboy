@@ -5,12 +5,12 @@ interface UserState {
   password: string;
   passwordConfirm: string;
   nickname: string;
-  introduction: string;
+  bio: string;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   setPasswordConfirm: (passwordConfirm: string) => void;
   setNickname: (nickname: string) => void;
-  setIntroduction: (introduction: string) => void;
+  setBio: (bio: string) => void;
 }
 
 const useStore = create<UserState>((set) => ({
@@ -18,12 +18,12 @@ const useStore = create<UserState>((set) => ({
   password: '',
   passwordConfirm: '',
   nickname: '',
-  introduction: '',
+  bio: '',
   setUsername: (username) => set({ username }),
   setPassword: (password) => set({ password }),
   setPasswordConfirm: (passwordConfirm) => set({ passwordConfirm }),
   setNickname: (nickname) => set({ nickname }),
-  setIntroduction: (introduction) => set({ introduction }),
+  setBio: (bio) => set({ bio}),
 }));
 
 export default useStore;
