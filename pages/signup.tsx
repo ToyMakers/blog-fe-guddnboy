@@ -10,39 +10,47 @@ const SignUp = () => {
     password,
     passwordConfirm,
     nickname,
-    introduction,
+    bio,
     setUsername,
     setPassword,
     setPasswordConfirm,
     setNickname,
-    setIntroduction,
+    setBio,
   } = useStore();
 
-  const navigateTo = (path: Url) => {
-    if (
-      username === '' ||
-      password === '' ||
-      passwordConfirm === '' ||
-      nickname === '' ||
-      introduction === ''
-    ) {
-      alert('모든 항목을 입력해주세요.');
+  const navigateTo = async (path: Url) => {
+    if (!username || !password || !passwordConfirm || !nickname || !bio) {
+      alert('모든 필드를 입력하세요.');
       return;
-    } else {
-      if (password !== passwordConfirm) {
-        alert('비밀번호가 일치하지 않습니다.');
-        return;
-      } else {
-        console.log({
+    }
+
+    if (password !== passwordConfirm) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           username,
           password,
-          passwordConfirm,
           nickname,
-          introduction,
-        });
-        alert('회원가입이 완료되었습니다.');
-        router.push(path);
+          bio,
+        }),
+      });
+
+      if (!response.ok) {
+        console.log(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/auth/register`);
+        throw new Error('회원가입에 실패했습니다.');
       }
+      alert('회원가입에 성공했습니다.');
+      console.log(response.body);
+      router.push('/login');
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -91,8 +99,8 @@ const SignUp = () => {
             <textarea
               className="w-80 mb-2 h-40 resize-none"
               placeholder="소개를 입력하세요."
-              value={introduction}
-              onChange={(e) => setIntroduction(e.target.value)}></textarea>
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}></textarea>
           </div>
           <div className="mb-2">
             <button className="w-80 h-10 bg-primary text-white" onClick={() => navigateTo('/')}>
