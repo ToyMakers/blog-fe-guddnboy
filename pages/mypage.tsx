@@ -9,6 +9,34 @@ const mypage = () => {
   const { nickname, bio, setNickname, setBio } = useStore();
   const router = useRouter();
 
+  const updateProfile = async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/profile`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nickname,
+          bio,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('프로필을 수정하는 데 실패했습니다.');
+      }
+      alert('프로필이 수정되었습니다.');
+    } catch (error) {
+      console.error(error);
+      alert('프로필을 수정하는 데 실패했습니다.');
+    }
+  }
+
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('access_token');
@@ -40,6 +68,8 @@ const mypage = () => {
     };
     fetchProfile();
   }, [setNickname, setBio]);
+
+
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center">
@@ -74,7 +104,7 @@ const mypage = () => {
         </div>
       </div>
         <div className="w-80 h-12 flex justify-center bg-slate-400 text-white">
-          <button>저장하기
+          <button onClick={()=> updateProfile()}>저장하기
           </button>
         </div>
     </div>
