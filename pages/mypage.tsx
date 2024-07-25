@@ -1,9 +1,13 @@
 import React from 'react';
 import useStore from '../store/store';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Backbtn from '../public/assets/backbtn.png';
 
 const mypage = () => {
   const { nickname, bio, setNickname, setBio } = useStore();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -38,18 +42,37 @@ const mypage = () => {
   }, [setNickname, setBio]);
 
   return (
-    <div className="min-h-screen">
-      <div className="flex flex-col items-center mt-9">
-        <h1 className="text-4xl">유저 정보</h1>
-      </div>
-      <div className="flex flex-col items-center mt-4">
-        <div className="flex">
-          닉네임
-          <div className="ml-4">{nickname}</div>
+    <div className="flex flex-col min-h-screen items-center p-24 justify-center">
+      <div className="flex  items-center mt-9">
+        <div className="">
+          <button className="w-10 h-10" onClick={() => router.push('/mainpage')}>
+            <Image src={Backbtn} onClick={() => router.push('/mainpage')} alt="뒤로가기"></Image>
+          </button>
         </div>
-        <div className="flex">
-          소개
-          <div className="ml-4">{bio}</div>
+        <div>
+          <h1 className="text-4xl">유저 정보</h1>
+        </div>
+      </div>
+      <div className="flex justify-between items-center mt-4 w-72">
+        <div className="text-2xl text-center w-20">닉네임</div>
+        <div className="text-center w-50">
+          <textarea
+            className="resize-none w-50 h-10"
+            value={nickname}
+            onChange={(e) => {
+              setNickname(e.target.value);
+            }}></textarea>
+        </div>
+      </div>
+      <div className="flex justify-between items-center mt-4 w-72">
+        <div className="text-2xl w-20 text-center">소개</div>
+        <div className="text-center w-50">
+          <textarea
+            className="resize-none w-50 h-40"
+            value={bio}
+            onChange={(e) => {
+              setBio(e.target.value);
+            }}></textarea>
         </div>
       </div>
     </div>
