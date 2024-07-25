@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { log } from 'console';
 
 const MainPage = () => {
   const router = useRouter();
   const navigateTo = (path: string) => {
     router.push(path);
   };
+
+  const logout = () => {
+    localStorage.removeItem('access_token');
+    navigateTo('/login');
+  }
 
   return (
     <div>
@@ -15,7 +21,7 @@ const MainPage = () => {
           <header className="flex justify-end w-full mt-4">
             <ul className="flex justify-center font-bold mr-4">
               <li className="mr-4">
-                <button onClick={() => navigateTo('/login')}>Logout</button>
+                <button onClick={() => logout()}>Logout</button>
               </li>
               <li className="mr-4">
                 <button onClick={() => navigateTo('/mypage')}>MyPage</button>
