@@ -12,7 +12,7 @@ const mypage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('access_token');
-      console.log(token);
+      console.log(`token : ${token}`);
       if (!token) {
         alert('로그인이 필요합니다.');
         return;
@@ -31,8 +31,8 @@ const mypage = () => {
         const data = await response.json();
         setNickname(data.nickname);
         setBio(data.bio);
-        console.log(data.nickname);
-        console.log(data.bio);
+        console.log(`nickname :${data.nickname}`);
+        console.log(`bio : ${data.bio}`);
       } catch (error) {
         console.error(error);
         alert('프로필을 가져오는 데 실패했습니다.');
@@ -42,29 +42,27 @@ const mypage = () => {
   }, [setNickname, setBio]);
 
   return (
-    <div className="flex flex-col min-h-screen items-center p-24 justify-center">
-      <div className="flex  items-center mt-9">
-        <div className="">
-          <button className="w-10 h-10" onClick={() => router.push('/mainpage')}>
-            <Image src={Backbtn} onClick={() => router.push('/mainpage')} alt="뒤로가기"></Image>
-          </button>
-        </div>
-        <div>
+    <div className="flex flex-col min-h-screen items-center justify-center">
+      <div className="flex justify-center items-center mt-9 w-80">
+        <button className="w-8 h-8" onClick={() => router.push('/mainpage')}>
+          <Image src={Backbtn} alt="뒤로가기"></Image>
+        </button>
+        <div className="ml-4 text-center">
           <h1 className="text-4xl">유저 정보</h1>
         </div>
       </div>
-      <div className="flex justify-between items-center mt-4 w-72">
+      <div className="flex justify-between align-middle items-center mt-4 w-80">
         <div className="text-2xl text-center w-20">닉네임</div>
         <div className="text-center w-50">
           <textarea
-            className="resize-none w-50 h-10"
+            className="resize-none w-50 h-6 text-center align-middle"
             value={nickname}
             onChange={(e) => {
               setNickname(e.target.value);
             }}></textarea>
         </div>
       </div>
-      <div className="flex justify-between items-center mt-4 w-72">
+      <div className="flex justify-between align-middle items-center mt-4 w-80">
         <div className="text-2xl w-20 text-center">소개</div>
         <div className="text-center w-50">
           <textarea
@@ -75,6 +73,10 @@ const mypage = () => {
             }}></textarea>
         </div>
       </div>
+        <div className="w-80 h-12 flex justify-center bg-slate-400 text-white">
+          <button>저장하기
+          </button>
+        </div>
     </div>
   );
 };
