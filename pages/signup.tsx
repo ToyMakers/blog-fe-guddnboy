@@ -2,6 +2,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import useStore from '../store/store';
 import { Url } from 'next/dist/shared/lib/router/router';
+import Image from 'next/image';
+import BackBtn from '../public/assets/backbtn.png';
 
 const SignUp = () => {
   const router = useRouter();
@@ -18,16 +20,24 @@ const SignUp = () => {
     setBio,
   } = useStore();
 
-  const navigateTo = async (path: Url) => {
+  const checkInputFields = () => {
     if (!username || !password || !passwordConfirm || !nickname || !bio) {
       alert('모든 필드를 입력하세요.');
-      return;
+      return false;
     }
-
+    return true;
+  };
+  const checkPassword = () => {
     if (password !== passwordConfirm) {
       alert('비밀번호가 일치하지 않습니다.');
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const navigateTo = async (path: Url) => {
+    checkInputFields();
+    checkPassword();
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/auth/register`, {
         method: 'POST',
@@ -59,6 +69,11 @@ const SignUp = () => {
     <main className="flex min-h-screen items-center p-24 justify-center">
       <div className="flex justify-between">
         <div>
+          <div>
+            <button onClick={() => router.push('/login')}>
+              <Image src={BackBtn} className="font-bold w-8 h-8" alt="뒤로가기"></Image>
+            </button>
+          </div>
           <div className="text-2xl h-12 font-bold text-center">회원가입</div>
           <div className="mb-2 h-12">
             <input

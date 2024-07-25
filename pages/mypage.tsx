@@ -1,14 +1,18 @@
 import React from 'react';
 import useStore from '../store/store';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Backbtn from '../public/assets/backbtn.png';
 
 const mypage = () => {
   const { nickname, bio, setNickname, setBio } = useStore();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('access_token');
-      console.log(token);
+      console.log(`token : ${token}`);
       if (!token) {
         alert('로그인이 필요합니다.');
         return;
@@ -27,8 +31,8 @@ const mypage = () => {
         const data = await response.json();
         setNickname(data.nickname);
         setBio(data.bio);
-        console.log(data.nickname);
-        console.log(data.bio);
+        console.log(`nickname :${data.nickname}`);
+        console.log(`bio : ${data.bio}`);
       } catch (error) {
         console.error(error);
         alert('프로필을 가져오는 데 실패했습니다.');
@@ -38,20 +42,41 @@ const mypage = () => {
   }, [setNickname, setBio]);
 
   return (
-    <div className="min-h-screen">
-      <div className="flex flex-col items-center mt-9">
-        <h1 className="text-4xl">유저 정보</h1>
-      </div>
-      <div className="flex flex-col items-center mt-4">
-        <div className="flex">
-          닉네임
-          <div className="ml-4">{nickname}</div>
-        </div>
-        <div className="flex">
-          소개
-          <div className="ml-4">{bio}</div>
+    <div className="flex flex-col min-h-screen items-center justify-center">
+      <div className="flex justify-center items-center mt-9 w-80">
+        <button className="w-8 h-8" onClick={() => router.push('/mainpage')}>
+          <Image src={Backbtn} alt="뒤로가기"></Image>
+        </button>
+        <div className="ml-4 text-center">
+          <h1 className="text-4xl">유저 정보</h1>
         </div>
       </div>
+      <div className="flex justify-between align-middle items-center mt-4 w-80">
+        <div className="text-2xl text-center w-20">닉네임</div>
+        <div className="text-center w-50">
+          <textarea
+            className="resize-none w-50 h-6 text-center align-middle"
+            value={nickname}
+            onChange={(e) => {
+              setNickname(e.target.value);
+            }}></textarea>
+        </div>
+      </div>
+      <div className="flex justify-between align-middle items-center mt-4 w-80">
+        <div className="text-2xl w-20 text-center">소개</div>
+        <div className="text-center w-50">
+          <textarea
+            className="resize-none w-50 h-40"
+            value={bio}
+            onChange={(e) => {
+              setBio(e.target.value);
+            }}></textarea>
+        </div>
+      </div>
+        <div className="w-80 h-12 flex justify-center bg-slate-400 text-white">
+          <button>저장하기
+          </button>
+        </div>
     </div>
   );
 };
