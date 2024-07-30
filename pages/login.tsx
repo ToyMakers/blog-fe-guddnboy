@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useStore from '../store/store';
 import { Url } from 'next/dist/shared/lib/router/router';
@@ -6,6 +6,11 @@ import { Url } from 'next/dist/shared/lib/router/router';
 const Login = () => {
   const router = useRouter();
   const { username, password, setUsername, setPassword } = useStore();
+
+  useEffect(() => {
+    setUsername('');
+    setPassword('');
+  }, []);
 
   const navigateTo = async (path: Url) => {
     router.push(path);
@@ -34,7 +39,6 @@ const Login = () => {
 
       const data = await response.json();
       const { access_token } = data;
-      console.log(`access_token : ${access_token}`);
       localStorage.setItem('access_token', access_token);
 
       navigateTo('/mainpage');
@@ -48,7 +52,7 @@ const Login = () => {
     <main className="flex min-h-screen flex-col items-center p-24">
       <div>
         <input
-          className="w-60 h-14 my-3"
+          className="w-60 h-14 my-3 rounded-[5px]"
           type="text"
           placeholder="ID"
           value={username}
@@ -57,7 +61,7 @@ const Login = () => {
       </div>
       <div>
         <input
-          className="w-60 h-14 my-3"
+          className="w-60 h-14 my-3 rounded-[5px]"
           type="password"
           placeholder="Password"
           value={password}
@@ -65,10 +69,14 @@ const Login = () => {
         />
       </div>
       <div className="w-60 h-14">
-        <button className="w-30 h-14 px-8" onClick={() => handleLogin()}>
+        <button
+          className="w-30 h-14 px-8 hover:bg-slate-400 hover:text-white transition rounded-[10px]"
+          onClick={() => handleLogin()}>
           로그인
         </button>
-        <button className="w-30 h-14 px-8" onClick={() => navigateTo('/signup')}>
+        <button
+          className="w-30 h-14 px-8 hover:bg-slate-400 hover:text-white transition rounded-[10px]"
+          onClick={() => navigateTo('/signup')}>
           회원가입
         </button>
       </div>

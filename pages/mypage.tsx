@@ -40,7 +40,6 @@ const mypage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('access_token');
-      console.log(`token : ${token}`);
       if (!token) {
         alert('로그인이 필요합니다.');
         return;
@@ -59,8 +58,6 @@ const mypage = () => {
         const data = await response.json();
         setNickname(data.nickname);
         setBio(data.bio);
-        console.log(`nickname :${data.nickname}`);
-        console.log(`bio : ${data.bio}`);
       } catch (error) {
         console.error(error);
         alert('프로필을 가져오는 데 실패했습니다.');
@@ -83,7 +80,7 @@ const mypage = () => {
         <div className="text-2xl text-center w-20">닉네임</div>
         <div className="text-center w-50">
           <textarea
-            className="resize-none w-50 h-6 text-center align-middle"
+            className="resize-none w-50 h-6 text-center align-middle rounded-[5px]"
             value={nickname}
             onChange={(e) => {
               setNickname(e.target.value);
@@ -94,14 +91,14 @@ const mypage = () => {
         <div className="text-2xl w-20 text-center">소개</div>
         <div className="text-center w-50">
           <textarea
-            className="resize-none w-50 h-40"
+            className="resize-none w-50 h-40 rounded-[5px]"
             value={bio}
             onChange={(e) => {
               setBio(e.target.value);
             }}></textarea>
         </div>
       </div>
-      <div className="w-80 h-12 flex justify-center bg-slate-400 text-white">
+      <div className="w-80 h-12 flex justify-center bg-slate-400 text-white hover:bg-primary transition rounded-[10px]">
         <button onClick={() => updateProfile()}>저장하기</button>
       </div>
     </div>

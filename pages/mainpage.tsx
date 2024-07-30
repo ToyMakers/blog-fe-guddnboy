@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { log } from 'console';
 
@@ -12,6 +12,13 @@ const MainPage = () => {
     localStorage.removeItem('access_token');
     navigateTo('/login');
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      navigateTo('/login');
+    }
+  }, []);
 
   return (
     <main className="min-h-screen">
