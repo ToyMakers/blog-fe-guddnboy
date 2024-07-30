@@ -44,36 +44,34 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <main className="flex min-h-screen flex-col items-center p-24">
-        <div>
-          <input
-            className="w-60 h-14 my-3"
-            type="text"
-            placeholder="ID"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            className="w-60 h-14 my-3"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="w-60 h-14">
-          <button className="w-30 h-14 px-8" onClick={() => handleLogin()}>
-            로그인
-          </button>
-          <button className="w-30 h-14 px-8" onClick={() => navigateTo('/signup')}>
-            회원가입
-          </button>
-        </div>
-      </main>
-    </div>
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <div>
+        <input
+          className="w-60 h-14 my-3"
+          type="text"
+          placeholder="ID"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </div>
+      <div>
+        <input
+          className="w-60 h-14 my-3"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <div className="w-60 h-14">
+        <button className="w-30 h-14 px-8" onClick={() => handleLogin()}>
+          로그인
+        </button>
+        <button className="w-30 h-14 px-8" onClick={() => navigateTo('/signup')}>
+          회원가입
+        </button>
+      </div>
+    </main>
   );
 };
 
