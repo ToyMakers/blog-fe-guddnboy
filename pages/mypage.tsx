@@ -35,7 +35,7 @@ const mypage = () => {
       console.error(error);
       alert('프로필을 수정하는 데 실패했습니다.');
     }
-  }
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -69,8 +69,6 @@ const mypage = () => {
     fetchProfile();
   }, [setNickname, setBio]);
 
-
-
   return (
     <div className="flex flex-col min-h-screen items-center justify-center">
       <div className="flex justify-center items-center mt-9 w-80">
@@ -103,10 +101,9 @@ const mypage = () => {
             }}></textarea>
         </div>
       </div>
-        <div className="w-80 h-12 flex justify-center bg-slate-400 text-white">
-          <button onClick={()=> updateProfile()}>저장하기
-          </button>
-        </div>
+      <div className="w-80 h-12 flex justify-center bg-slate-400 text-white">
+        <button onClick={() => updateProfile()}>저장하기</button>
+      </div>
     </div>
   );
 };

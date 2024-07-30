@@ -23,7 +23,7 @@ const useStore = create<UserState>((set) => ({
   setPassword: (password) => set({ password }),
   setPasswordConfirm: (passwordConfirm) => set({ passwordConfirm }),
   setNickname: (nickname) => set({ nickname }),
-  setBio: (bio) => set({ bio}),
+  setBio: (bio) => set({ bio }),
 }));
 
 export default useStore;
