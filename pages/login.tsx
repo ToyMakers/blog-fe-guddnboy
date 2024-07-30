@@ -48,7 +48,7 @@ const Login = () => {
     <main className="flex min-h-screen flex-col items-center p-24">
       <div>
         <input
-          className="w-60 h-14 my-3"
+          className="w-60 h-14 my-3 rounded-[5px]"
           type="text"
           placeholder="ID"
           value={username}
@@ -57,7 +57,7 @@ const Login = () => {
       </div>
       <div>
         <input
-          className="w-60 h-14 my-3"
+          className="w-60 h-14 my-3 rounded-[5px]"
           type="password"
           placeholder="Password"
           value={password}
@@ -65,10 +65,14 @@ const Login = () => {
         />
       </div>
       <div className="w-60 h-14">
-        <button className="w-30 h-14 px-8" onClick={() => handleLogin()}>
+        <button
+          className="w-30 h-14 px-8 hover:bg-slate-400 hover:text-white transition rounded-[10px]"
+          onClick={() => handleLogin()}>
           로그인
         </button>
-        <button className="w-30 h-14 px-8" onClick={() => navigateTo('/signup')}>
+        <button
+          className="w-30 h-14 px-8 hover:bg-slate-400 hover:text-white transition rounded-[10px]"
+          onClick={() => navigateTo('/signup')}>
           회원가입
         </button>
       </div>
