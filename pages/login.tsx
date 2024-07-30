@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useStore from '../store/store';
 import { Url } from 'next/dist/shared/lib/router/router';
@@ -6,6 +6,11 @@ import { Url } from 'next/dist/shared/lib/router/router';
 const Login = () => {
   const router = useRouter();
   const { username, password, setUsername, setPassword } = useStore();
+
+  useEffect(() => {
+    setUsername('');
+    setPassword('');
+  }, []);
 
   const navigateTo = async (path: Url) => {
     router.push(path);
@@ -34,7 +39,6 @@ const Login = () => {
 
       const data = await response.json();
       const { access_token } = data;
-      console.log(`access_token : ${access_token}`);
       localStorage.setItem('access_token', access_token);
 
       navigateTo('/mainpage');

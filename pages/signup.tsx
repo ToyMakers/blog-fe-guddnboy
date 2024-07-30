@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useStore from '../store/store';
 import Image from 'next/image';
@@ -18,6 +18,14 @@ const SignUp = () => {
     setNickname,
     setBio,
   } = useStore();
+
+  useEffect(() => {
+    setUsername('');
+    setPassword('');
+    setPasswordConfirm('');
+    setNickname('');
+    setBio('');
+  }, []);
 
   const validateInputs = () => {
     if (username.length > 8) {
@@ -151,7 +159,9 @@ const SignUp = () => {
             />
           </div>
           <div className="mb-2">
-            <button className="w-80 h-10 bg-primary text-white" onClick={handleSignup}>
+            <button
+              className="w-80 h-10 text-white bg-slate-400 hover:bg-primary transition rounded-[10px]"
+              onClick={handleSignup}>
               회원가입
             </button>
           </div>
