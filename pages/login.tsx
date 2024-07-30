@@ -16,6 +16,7 @@ const Login = () => {
       alert('아이디와 비밀번호를 입력해주세요');
       return;
     }
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/auth/login`, {
         method: 'POST',
@@ -28,7 +29,7 @@ const Login = () => {
         }),
       });
       if (!response.ok) {
-        throw new Error('로그인에 실패했습니다.');
+        throw new Error('로그인에 실패하였습니다.\n다시 시도해주세요.');
       }
 
       const data = await response.json();
@@ -39,7 +40,7 @@ const Login = () => {
       navigateTo('/mainpage');
     } catch (error) {
       console.error(error);
-      alert('로그인에 실패했습니다.');
+      alert('아이디나 비밀번호를 확인해주세요.');
     }
   };
 
