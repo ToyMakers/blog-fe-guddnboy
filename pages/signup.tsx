@@ -29,43 +29,43 @@ const SignUp = () => {
 
   const validateInputs = () => {
     if (username.length > 8) {
-      alert('username은 8글자 이하로 작성해주세요.');
-      return false;
+      alert('아이디는 8글자 이하로 작성해주세요.');
+      return;
     }
 
     const usernameRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])/;
     if (!usernameRegex.test(username)) {
-      alert('username은 영문자와 숫자만 입력 가능합니다.');
-      return false;
+      alert('아이디는 영문자와 숫자만 입력 가능합니다.');
+      return;
     }
 
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()])/;
     if (!passwordRegex.test(password)) {
       alert('비밀번호는 영문자와 특수문자(~!@#$%^&*())를 포함하여야 합니다.');
-      return false;
+      return;
     }
 
     if (password !== passwordConfirm) {
       alert('비밀번호가 일치하지 않습니다.');
-      return false;
+      return;
     }
 
     if (nickname === '') {
       alert('닉네임을 입력해주세요.');
-      return false;
+      return;
     }
     if (nickname.length > 8) {
       alert('닉네임은 8글자 이하로 작성해주세요.');
-      return false;
+      return;
     }
 
     if (bio === '') {
       alert('자기소개를 입력해주세요.');
-      return false;
+      return;
     }
     if (bio.length > 200) {
       alert('자기소개는 200자 이하로 작성해주세요.');
-      return false;
+      return;
     }
 
     return true;

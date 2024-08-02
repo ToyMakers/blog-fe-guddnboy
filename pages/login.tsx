@@ -49,38 +49,37 @@ const Login = () => {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
-      <div>
-        <input
-          className="w-60 h-14 my-3 rounded-[5px]"
-          type="text"
-          placeholder="ID"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <input
-          className="w-60 h-14 my-3 rounded-[5px]"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+    <div className="flex flex-col min-h-screen items-center p-24">
+      <input
+        className="w-60 h-14 mt-6 rounded-[5px]"
+        type="text"
+        placeholder="ID"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        className="w-60 h-14 my-6 rounded-[5px]"
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <div className="w-60 h-14">
         <button
-          className="w-30 h-14 px-8 hover:bg-slate-400 hover:text-white transition rounded-[10px]"
+          className="w-30 h-14 px-8  hover:text-primary transition rounded-[10px] font-serif"
           onClick={() => handleLogin()}>
           로그인
         </button>
         <button
-          className="w-30 h-14 px-8 hover:bg-slate-400 hover:text-white transition rounded-[10px]"
+          className="w-30 h-14 px-8  hover:text-primary transition rounded-[10px] font-serif"
           onClick={() => navigateTo('/signup')}>
           회원가입
         </button>
       </div>
-    </main>
+      <footer className="m-20 text-gray-400 font-serif">
+        © 2024. 방구석스터디 블로그 프로젝트
+      </footer>
+    </div>
   );
 };
 
