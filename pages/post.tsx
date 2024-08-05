@@ -3,10 +3,16 @@ import Image from 'next/image';
 import searchBtn from '../public/assets/searchbtn.png';
 import backBtn from '../public/assets/backbtn.png';
 import postBtn from '../public/assets/postbtn.png';
+import { useRouter } from 'next/router';
+import { Url } from 'next/dist/shared/lib/router/router';
 
 const post = () => {
+  const router = useRouter();
+  const navigateTo = async (path: Url) => {
+    router.push(path);
+  };
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row mx-4">
       <div className="flex flex-col pl-8 w-[50%] h-[100vh] bg-white font-sans">
         <section className="mt-6">
           <div className="resize-none">
@@ -19,7 +25,7 @@ const post = () => {
           <div className="mt-4 border-b-[6px] border-gray-800 w-[80px]"></div>
         </section>
         <section className="flex flex-row mt-5 h-full">
-          <div className="flex justify-between text-tagColor w-[560px]">
+          <div className="flex justify-between text-tagColor w-full">
             <div className="flex justify-center items-center">
               <input
                 type="text"
@@ -45,7 +51,7 @@ const post = () => {
         </section>
         <section className="flex justify-between w-full h-[100vh]">
           <div className="ml-2 w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition">
-            <Image src={backBtn} alt="뒤로가기" />
+            <Image src={backBtn} onClick={() => navigateTo('/home')} alt="뒤로가기" />
           </div>
           <div className="mr-4 w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition">
             <Image src={postBtn} alt="게시" />
