@@ -40,7 +40,7 @@ const mypage = () => {
       alert('프로필이 수정되었습니다.');
       setInitialNickname(nickname);
       setInitialBio(bio);
-      router.push('/mainpage');
+      router.push('/home');
     } catch (error) {
       console.error(error);
       alert('프로필을 수정하는 데 실패했습니다.');
@@ -83,7 +83,7 @@ const mypage = () => {
     <div className="flex flex-col min-h-screen items-center justify-center">
       <div className="flex flex-row items-center mt-9 w-80">
         <div className="flex justify-center items-center hover:bg-gray-400 hover:rounded-full transition w-[50px] h-[50px]">
-          <button className="w-8 h-8" onClick={() => router.push('/mainpage')}>
+          <button className="w-8 h-8" onClick={() => router.push('/home')}>
             <Image src={Backbtn} alt="뒤로가기"></Image>
           </button>
         </div>

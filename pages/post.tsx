@@ -4,7 +4,7 @@ import searchBtn from '../public/assets/searchbtn.png';
 import backBtn from '../public/assets/backbtn.png';
 import postBtn from '../public/assets/postbtn.png';
 
-const write = () => {
+const post = () => {
   return (
     <div className="flex flex-row">
       <div className="flex flex-col pl-8 w-[50%] h-[100vh] bg-white font-sans">
@@ -56,4 +56,4 @@ const write = () => {
   );
 };
 
-export default write;
+export default post;

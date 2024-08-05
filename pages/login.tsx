@@ -41,7 +41,7 @@ const Login = () => {
       const { access_token } = data;
       localStorage.setItem('access_token', access_token);
 
-      navigateTo('/mainpage');
+      navigateTo('/home');
     } catch (error) {
       console.error(error);
       alert('아이디나 비밀번호를 확인해주세요.');

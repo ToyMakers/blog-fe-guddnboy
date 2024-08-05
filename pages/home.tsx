@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
+import BlogCard from '../components/BlogCard';
 
-const MainPage = () => {
+const home = () => {
   const router = useRouter();
   const [nickname, setNickname] = useState<string | null>(null);
 
@@ -46,13 +47,32 @@ const MainPage = () => {
   }, [setNickname, router]);
 
   return (
-    <section className="min-h-screen">
-      <div className="flex flex-col items-center mt-4">
-        <div className="text-3xl font-bold">OurBlog</div>
+    <div className="mx-10">
+      <section className="flex flex-row mt-4">
+        <div
+          className="ml-4 text-titleColor text-[21px] hover:cursor-pointer hover:-translate-y-1.5 transition"
+          onClick={() => navigateTo('/home')}>
+          OurBlog
+        </div>
         <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
-      </div>
-    </section>
+      </section>
+      <section className="mt-16">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+        </ul>
+      </section>
+      <footer className="text-center m-20 text-gray-400 text-[12px]">
+        <a href="https://github.com/guddnboy">guddnboy</a> ⓒ2024.
+        <a href="https://github.com/ToyMakers/blog-server"> 방구석스터디-ToyMakers</a> 블로그
+        프로젝트
+      </footer>
+    </div>
   );
 };
 
-export default MainPage;
+export default home;
