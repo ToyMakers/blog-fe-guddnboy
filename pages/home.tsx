@@ -46,12 +46,31 @@ const home = () => {
   }, [setNickname, router]);
 
   return (
-    <section className="min-h-screen">
-      <div className="flex flex-col items-center mt-4">
-        <div className="text-3xl font-bold">OurBlog</div>
+    <div>
+      <section className="flex flex-col mt-4">
+        <div
+          className="ml-4 text-titleColor text-[21px] hover:cursor-pointer"
+          onClick={() => navigateTo('/home')}>
+          velog
+        </div>
         <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
-      </div>
-    </section>
+      </section>
+      <section className="mt-16 mx-10">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ml-4 mr-4">
+          <div className="w-[240px] h-[240px] content transition hover:-translate-y-2 hover:cursor-pointer shadow-md rounded-sm">
+            <li className="flex flex-col w-[240px] h-[240px] text-titleColor border-2">
+              <a className="flex justify-center text-center w-full h-[32px] border-b-2 text-[18px]">
+                블로그 제목 표시
+              </a>
+              <div className="text-[16px] h-[170px] m-2">
+                이 부분에 게시글 내용이 표시될 예정입니다.
+              </div>
+              <footer className="text-left ml-4 text-[14px]">작성자</footer>
+            </li>
+          </div>
+        </ul>
+      </section>
+    </div>
   );
 };
 
