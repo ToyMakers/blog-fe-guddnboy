@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
+import BlogCard from '../components/BlogCard';
 
 const home = () => {
   const router = useRouter();
@@ -46,32 +47,30 @@ const home = () => {
   }, [setNickname, router]);
 
   return (
-    <div>
-      <section className="flex flex-col mt-4">
+    <div className="mx-10">
+      <section className="flex flex-row mt-4">
         <div
-          className="ml-4 text-titleColor text-[21px] hover:cursor-pointer"
+          className="ml-4 text-titleColor text-[21px] hover:cursor-pointer hover:-translate-y-1.5 transition"
           onClick={() => navigateTo('/home')}>
-          velog
+          OurBlog
         </div>
         <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
       </section>
-      <section className="mt-16 mx-10">
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ml-4 mr-4">
-          <div className="w-[280px] h-[280px] content transition hover:-translate-y-2 hover:cursor-pointer shadow-md rounded-md bg-white">
-            <li className="flex flex-col w-[280px] h-[280px] text-titleColor">
-              <div className="flex justify-center items-center text-center w-full h-[48px] border-b-[1px] border-b-slate-200 text-[18px]">
-                블로그 제목 표시
-              </div>
-              <div className="text-[16px] h-[210px] m-2">
-                이 부분에 게시글 내용이 표시될 예정입니다.
-              </div>
-              <footer className="flex items-center w-full h-[48px] text-left pl-4 text-[14px] border-t-[1px] border-t-slate-200">
-                <div>by 작성자</div>
-              </footer>
-            </li>
-          </div>
+      <section className="mt-16">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
+          <BlogCard />
         </ul>
       </section>
+      <footer className="text-center m-20 text-gray-400 text-[12px]">
+        <a href="https://github.com/guddnboy">guddnboy</a> ⓒ2024.
+        <a href="https://github.com/ToyMakers/blog-server"> 방구석스터디-ToyMakers</a> 블로그
+        프로젝트
+      </footer>
     </div>
   );
 };
