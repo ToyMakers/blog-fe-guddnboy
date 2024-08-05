@@ -22,7 +22,12 @@ const Header: React.FC<HeaderProps> = ({ nickname, logout, navigateTo }) => {
           <button onClick={logout}>Logout</button>
         </li>
         <li className="mr-4">
-          <button>글쓰기</button>
+          <button
+            onClick={() => {
+              navigateTo('/write');
+            }}>
+            글쓰기
+          </button>
         </li>
       </ul>
     </header>
