@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  width: 100vw;
-  height: 100vh;
-}
-
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -22,9 +17,11 @@ body {
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
+
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
-    rgb(var(--background-start-rgb));
+  background: RGBA(250, 250, 250, 1);
 
   font-family: sans-serif;
 }
