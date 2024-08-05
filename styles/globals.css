@@ -22,8 +22,6 @@ body {
 
   color: rgb(var(--foreground-rgb));
   background: RGBA(250, 250, 250, 1);
-
-  font-family: sans-serif;
 }
 
 @layer utilities {
