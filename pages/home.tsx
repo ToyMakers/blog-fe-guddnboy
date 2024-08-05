@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
 
-const MainPage = () => {
+const home = () => {
   const router = useRouter();
   const [nickname, setNickname] = useState<string | null>(null);
 
@@ -55,4 +55,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default home;
