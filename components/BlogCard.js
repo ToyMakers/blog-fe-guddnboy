@@ -2,8 +2,8 @@ import React from 'react';
 
 const BlogCard = () => {
   return (
-    <div className="w-[280px] h-[280px] content transition hover:-translate-y-2 hover:cursor-pointer shadow-md rounded-md bg-white">
-      <li className="flex flex-col w-[280px] h-[280px] text-titleColor">
+    <div className="gap-4">
+      <li className="blog-card flex flex-col w-full h-full text-titleColor">
         <div className="flex justify-center items-center text-center w-full h-[48px] border-b-[1px] border-b-slate-200 text-[18px]">
           블로그 제목 표시
         </div>

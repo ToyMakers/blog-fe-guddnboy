@@ -48,12 +48,7 @@ const home = () => {
 
   return (
     <div className="mx-10">
-      <section className="flex flex-row mt-4">
-        <div
-          className="ml-4 text-titleColor text-[21px] hover:cursor-pointer hover:-translate-y-1.5 transition"
-          onClick={() => navigateTo('/home')}>
-          OurBlog
-        </div>
+      <section className="mt-8">
         <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
       </section>
       <section className="mt-16">

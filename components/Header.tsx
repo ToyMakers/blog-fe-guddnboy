@@ -11,7 +11,12 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ nickname, logout, navigateTo }) => {
   return (
-    <header className="flex justify-end w-full">
+    <header className="flex justify-between w-full">
+      <div
+        className="ml-4 text-titleColor text-[21px] hover:cursor-pointer hover:-translate-y-1.5 transition"
+        onClick={() => navigateTo('/home')}>
+        OurBlog
+      </div>
       <ul className="flex justify-center items-center">
         <li className="flex flex-row mr-4">
           <div
