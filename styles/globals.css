@@ -6,6 +6,9 @@
   .blog-card {
     @apply w-[260px] h-[260px] transition hover:-translate-y-2 hover:cursor-pointer shadow-lg rounded-md bg-white;
   }
+  .modify-btn {
+    @apply w-10 text-modifyBtn;
+  }
 }
 
 :root {

@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         titleColor: '#212529',
         tagColor: '#212529',
+        modifyBtn: '#12b886',
       },
     },
   },
