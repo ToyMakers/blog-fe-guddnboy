@@ -16,7 +16,8 @@ const Login = () => {
     router.push(path);
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (username === '' || password === '') {
       alert('아이디와 비밀번호를 입력해주세요');
       return;
@@ -49,35 +50,44 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center p-24">
-      <input
-        className="w-60 h-14 mt-6 rounded-[5px]"
-        type="text"
-        placeholder="ID"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        className="w-60 h-14 my-6 rounded-[5px]"
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <div className="w-60 h-14">
-        <button
-          className="w-30 h-14 px-8  hover:text-primary transition rounded-[10px] font-serif"
-          onClick={() => handleLogin()}>
-          로그인
-        </button>
-        <button
-          className="w-30 h-14 px-8  hover:text-primary transition rounded-[10px] font-serif"
-          onClick={() => navigateTo('/signup')}>
-          회원가입
-        </button>
-      </div>
-      <footer className="m-20 text-gray-400 font-serif">
-        © 2024. 방구석스터디 블로그 프로젝트
+    <div className="flex flex-col p-24 min-w-[500px]">
+      <form onSubmit={handleLogin} className="flex flex-col justify-center items-center">
+        <div>
+          <input
+            className="w-60 h-14 mt-6 rounded-[5px] outline-none placeholder:p-1"
+            type="text"
+            placeholder="ID"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <input
+            className="w-60 h-14 my-6 rounded-[5px] outline-none placeholder:p-1"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="w-60 h-14 flex justify-between">
+          <button
+            className="w-30 h-14 px-8  text-primary hover:-translate-y-2 transition"
+            type="submit">
+            로그인
+          </button>
+          <button
+            className="w-30 h-14 px-8 text-primary hover:-translate-y-2 transition"
+            type="button"
+            onClick={() => navigateTo('/signup')}>
+            회원가입
+          </button>
+        </div>
+      </form>
+      <footer className="text-center m-20 text-gray-400 text-[12px]">
+        ⓒ2024.
+        <a href="https://github.com/ToyMakers/blog-server"> 방구석스터디-ToyMakers</a>
+        <a href="https://github.com/guddnboy"> by guddnboy</a>
       </footer>
     </div>
   );
