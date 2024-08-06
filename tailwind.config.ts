@@ -11,7 +11,8 @@ const config: Config = {
       colors: {
         titleColor: '#212529',
         tagColor: '#212529',
-        modifyBtn: '#12b886',
+        modifyfont: '#12b886',
+        modifyfontHover: '#38d9a9',
       },
     },
   },

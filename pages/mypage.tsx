@@ -89,31 +89,43 @@ const mypage = () => {
         </div>
       </section>
       <div className="flex flex-col w-full justify-center items-center">
-        <div className="flex-row items-center">
-          <div className="flex items-center mt-4 w-80">
+        <div className="flex-row mt-8 items-center">
+          <div className="flex items-center w-80">
             <div className="text-[20px] text-center w-20">닉네임</div>
             <div className="h-[18px] border-l-2 px-2"></div>
             <div className="flex w-60">
               {isEditing ? (
-                <input
-                  className="resize-none w-full h-6 align-middle bg-slate-200 rounded-sm outline-slate-800"
-                  value={nickname}
-                  data-selector="nickname"
-                  onChange={(e) => {
-                    setNickname(e.target.value);
-                  }}
-                />
+                <>
+                  <input
+                    className="resize-none w-full h-6 align-middle bg-slate-200 rounded-sm outline-slate-800 outline-1"
+                    value={nickname}
+                    data-selector="nickname"
+                    onChange={(e) => {
+                      setNickname(e.target.value);
+                    }}
+                  />
+                  <button
+                    onClick={() => setIsEditing(!isEditing)}
+                    className="w-10 bg-modifyfont rounded-sm text-white hover:bg-modifyfontHover">
+                    저장
+                  </button>
+                </>
               ) : (
-                <div className="w-full align-middle">{nickname}</div>
+                <>
+                  <div className="w-full align-middle flex flex-">{nickname}</div>
+                  <div>
+                    <button onClick={() => setIsEditing(!isEditing)} className="modify-btn">
+                      수정
+                    </button>
+                  </div>
+                </>
               )}
-              <button onClick={() => setIsEditing(!isEditing)} className="modify-btn font-">
-                수정
-              </button>
             </div>
           </div>
         </div>
         <div className="flex justify-between align-middle items-center mt-4 w-80">
           <div className="text-[22px] w-20 text-center">소개</div>
+          <div className="h-[48px] border-l-2 px-2"></div>
           <div className="text-center w-50">
             <textarea
               className="resize-none w-50 h-40 rounded-[5px] outline-none"
