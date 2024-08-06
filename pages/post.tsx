@@ -37,7 +37,8 @@ const post = () => {
               <Image
                 src={searchBtn}
                 alt="검색"
-                className="hover:cursor-pointer w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition"></Image>
+                className="hover:cursor-pointer w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition"
+              />
             </div>
           </div>
         </section>
