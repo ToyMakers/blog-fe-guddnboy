@@ -48,7 +48,7 @@ const home = () => {
 
   return (
     <div className="mx-10">
-      <section className="flex flex-row mt-4">
+      <section className="mt-8">
         <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
       </section>
       <section className="mt-16">
