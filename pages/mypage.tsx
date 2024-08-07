@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import useStore from '../store/store';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
+import Footer from '@/components/Footer';
 
 const mypage = () => {
   const { nickname, bio, setNickname, setBio } = useStore();
@@ -107,7 +108,7 @@ const mypage = () => {
   }, [setNickname, setBio, router]);
 
   return (
-    <div className="w-full h-full">
+    <Fragment>
       <section className="mt-8 mx-10">
         <Header nickname={nickname} logout={function (): void {}} navigateTo={navigateTo} />
       </section>
@@ -188,7 +189,8 @@ const mypage = () => {
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </Fragment>
   );
 };
 
