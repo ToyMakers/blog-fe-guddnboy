@@ -1,55 +1,83 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import useStore from '../store/store';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Backbtn from '../public/assets/backbtn.png';
+import Header from '../components/Header';
+import Footer from '@/components/Footer';
 
 const mypage = () => {
   const { nickname, bio, setNickname, setBio } = useStore();
   const [initialNickname, setInitialNickname] = useState('');
   const [initialBio, setInitialBio] = useState('');
+  const [isEditingNickname, setisEditingNickname] = useState(false);
+  const [isEditingBio, setisEditingBio] = useState(false);
   const router = useRouter();
+  const navigateTo = (path: string) => router.push(path);
 
   const nicknameRegex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,8}$/;
+  const bioRegex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣\n .,!@#$%^&*()\-_=+\[\]{}|;:'",.<>?/\\]{1,200}$/;
 
-  const updateProfile = async () => {
+  const updateNickname = async () => {
     const token = localStorage.getItem('access_token');
+    setisEditingNickname(!isEditingNickname);
+    setisEditingNickname(!isEditingNickname);
 
     if (!nicknameRegex.test(nickname)) {
       alert('닉네임은 8자 이내의 한글, 영문, 숫자만 사용 가능합니다.');
-      return;
+      setNickname(initialNickname);
+    } else {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/profile`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nickname,
+            bio,
+          }),
+        });
+        setInitialNickname(nickname);
+      } catch (error) {
+        console.error(error);
+        alert('닉네임을 수정하는 데 실패했습니다. 다시 시도해주세요.');
+      }
     }
+  };
 
-    if (initialNickname === nickname && initialBio === bio) {
-      alert('수정사항이 없습니다.');
-      return;
-    }
+  const updateBio = async () => {
+    const token = localStorage.getItem('access_token');
+    setisEditingBio(!isEditingBio);
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/profile`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nickname,
-          bio,
-        }),
-      });
-      alert('프로필이 수정되었습니다.');
-      setInitialNickname(nickname);
-      setInitialBio(bio);
-      router.push('/home');
-    } catch (error) {
-      console.error(error);
-      alert('프로필을 수정하는 데 실패했습니다.');
+    if (!bioRegex.test(bio)) {
+      alert(`소개는 200자 이내로 작성해주세요.\n(${bio.length} / 200)`);
+      setisEditingBio(!isEditingBio);
+      setBio(initialBio);
+    } else {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/profile`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nickname,
+            bio,
+          }),
+        });
+        setInitialBio(bio);
+      } catch (error) {
+        console.error(error);
+        alert('소개를 수정하는 데 실패했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem('access_token');
+
       if (!token) {
         alert('로그인이 필요합니다.');
         router.push('/login');
@@ -80,47 +108,89 @@ const mypage = () => {
   }, [setNickname, setBio, router]);
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center">
-      <div className="flex flex-row items-center mt-9 w-80">
-        <div className="flex justify-center items-center hover:bg-gray-400 hover:rounded-full transition w-[50px] h-[50px]">
-          <button className="w-8 h-8" onClick={() => router.push('/home')}>
-            <Image src={Backbtn} alt="뒤로가기"></Image>
-          </button>
+    <Fragment>
+      <section className="mt-8 mx-10">
+        <Header nickname={nickname} logout={function (): void {}} navigateTo={navigateTo} />
+      </section>
+      <div className="flex flex-col w-full justify-center items-center">
+        <div className="mt-12 items-center">
+          <div className="flex justify-between items-center w-80 h-[60px]">
+            <div className="text-[20px] text-center w-20">닉네임</div>
+            <div className="h-[18px] border-l-2 px-2"></div>
+            <div className="flex w-60">
+              {isEditingNickname ? (
+                <section className="w-full">
+                  <input
+                    className="resize-none w-full h-6 align-middle bg-slate-100 rounded-sm outline-slate-800 outline-1"
+                    value={nickname}
+                    data-selector="nickname"
+                    onChange={(e) => {
+                      setNickname(e.target.value);
+                    }}
+                  />
+                  <div className="flex flex-row justify-end">
+                    <div>{nickname.length}/8</div>
+                    <div>
+                      <button
+                        onClick={() => updateNickname()}
+                        className="w-10 bg-modifyfont rounded-sm text-white hover:bg-modifyfontHover">
+                        저장
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              ) : (
+                <>
+                  <div className="w-full align-middle flex flex-">{nickname}</div>
+                  <div>
+                    <button
+                      onClick={() => setisEditingNickname(!isEditingNickname)}
+                      className="modify-btn">
+                      수정
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="flex-1 justify-center ml-4 text-center">
-          <h1 className="text-3xl ">유저 정보</h1>
+        <div className="flex items-center w-80 mt-4">
+          <div className="text-[20px] text-center w-[80px]">소개</div>
+          <div className="h-[48px] border-l-2 px-2"></div>
+          <div className="w-60">
+            {isEditingBio ? (
+              <section>
+                <textarea
+                  className="resize-none w-full h-40 align-middle bg-slate-100 rounded-sm outline-slate-800 outline-1"
+                  value={bio}
+                  data-selector="bio"
+                  onChange={(e) => {
+                    setBio(e.target.value);
+                  }}></textarea>
+                <div className="flex justify-end">
+                  <div className="font-titleColor pr-4">{bio.length}/200</div>
+                  <button
+                    onClick={() => updateBio()}
+                    className="w-10 bg-modifyfont rounded-sm text-white hover:bg-modifyfontHover ">
+                    저장
+                  </button>
+                </div>
+              </section>
+            ) : (
+              <div className="flex">
+                <div className="w-full align-middle flex flex-">{bio}</div>
+                <div>
+                  <button onClick={() => setisEditingBio(!isEditingBio)} className="modify-btn">
+                    수정
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      <div className="flex justify-between align-middle items-center mt-4 w-80">
-        <div className="text-[22px] text-center w-20">닉네임</div>
-        <div className="text-center w-50">
-          <textarea
-            className="resize-none w-50 h-6 text-center align-middle rounded-[5px]"
-            value={nickname}
-            data-selector="nickname"
-            onChange={(e) => {
-              setNickname(e.target.value);
-            }}></textarea>
-        </div>
-      </div>
-      <div className="flex justify-between align-middle items-center mt-4 w-80">
-        <div className="text-[22px] w-20 text-center">소개</div>
-        <div className="text-center w-50">
-          <textarea
-            className="resize-none w-50 h-40 rounded-[5px]"
-            value={bio}
-            data-selector="bio"
-            onChange={(e) => {
-              setBio(e.target.value);
-            }}></textarea>
-        </div>
-      </div>
-      <div className="w-80 h-12 flex justify-center bg-slate-300 text-white hover:bg-slate-600 transition rounded-[10px]">
-        <button className="text-[22px]" onClick={updateProfile}>
-          저장하기
-        </button>
-      </div>
-    </div>
+      <Footer />
+    </Fragment>
   );
 };
 
