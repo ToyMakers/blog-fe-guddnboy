@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/store';
 import { useRouter } from 'next/router';
+import Header from '../components/Header';
 
 const mypage = () => {
   const { nickname, bio, setNickname, setBio } = useStore();
@@ -108,22 +109,18 @@ const mypage = () => {
   return (
     <div className="w-full h-full">
       <section className="mt-8 mx-10">
-        <div
-          className="w-[120px] text-titleColor text-[21px] hover:cursor-pointer hover:-translate-y-1.5 transition"
-          onClick={() => navigateTo('/home')}>
-          OurBlog
-        </div>
+        <Header nickname={nickname} logout={function (): void {}} navigateTo={navigateTo} />
       </section>
       <div className="flex flex-col w-full justify-center items-center">
-        <div className="mt-8 items-center">
-          <div className="flex justify-between items-center w-80">
+        <div className="mt-12 items-center">
+          <div className="flex justify-between items-center w-80 h-[60px]">
             <div className="text-[20px] text-center w-20">닉네임</div>
             <div className="h-[18px] border-l-2 px-2"></div>
             <div className="flex w-60">
               {isEditingNickname ? (
                 <section className="w-full">
                   <input
-                    className="resize-none w-full h-6 align-middle bg-slate-200 rounded-sm outline-slate-800 outline-1"
+                    className="resize-none w-full h-6 align-middle bg-slate-100 rounded-sm outline-slate-800 outline-1"
                     value={nickname}
                     data-selector="nickname"
                     onChange={(e) => {
@@ -161,9 +158,9 @@ const mypage = () => {
           <div className="h-[48px] border-l-2 px-2"></div>
           <div className="w-60">
             {isEditingBio ? (
-              <>
+              <section>
                 <textarea
-                  className="resize-none w-full h-40 align-middle bg-slate-200 rounded-sm outline-slate-800 outline-1"
+                  className="resize-none w-full h-40 align-middle bg-slate-100 rounded-sm outline-slate-800 outline-1"
                   value={bio}
                   data-selector="bio"
                   onChange={(e) => {
@@ -177,7 +174,7 @@ const mypage = () => {
                     저장
                   </button>
                 </div>
-              </>
+              </section>
             ) : (
               <div className="flex">
                 <div className="w-full align-middle flex flex-">{bio}</div>
