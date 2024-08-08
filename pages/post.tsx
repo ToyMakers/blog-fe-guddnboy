@@ -16,6 +16,12 @@ const post = () => {
     router.push(path);
   };
 
+  useEffect(() => {
+    setTitle('');
+    // setTag('');
+    setContent('');
+  }, []);
+
   return (
     <div className="flex flex-row mx-4">
       <div className="flex flex-col pl-8 w-[50%] h-[100vh] bg-white font-sans">
