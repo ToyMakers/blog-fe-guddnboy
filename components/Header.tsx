@@ -13,14 +13,14 @@ const Header: React.FC<HeaderProps> = ({ nickname, logout, navigateTo }) => {
   return (
     <header className="flex justify-between w-full">
       <div
-        className="text-titleColor text-[21px] hover:cursor-pointer hover:-translate-y-1.5 transition"
+        className="text-titleColor text-[21px] hover:cursor-pointer "
         onClick={() => navigateTo('/home')}>
         OurBlog
       </div>
       <ul className="flex justify-center items-center">
         <li className="flex flex-row mr-4">
           <div
-            className="hover:cursor-pointer hover:text-gray-600 hover:font-bold  hover:-translate-y-1.5 transition"
+            className="hover:cursor-pointer hover:text-gray-600 hover:font-bold "
             onClick={() => navigateTo('/mypage')}>
             {nickname}
           </div>
