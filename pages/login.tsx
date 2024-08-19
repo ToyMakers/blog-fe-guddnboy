@@ -71,13 +71,11 @@ const Login = () => {
           />
         </div>
         <div className="w-60 h-14 flex justify-between">
-          <button
-            className="w-30 h-14 px-8  text-primary hover:-translate-y-2 transition"
-            type="submit">
+          <button className="w-30 h-14 px-8  text-primary" type="submit">
             로그인
           </button>
           <button
-            className="w-30 h-14 px-8 text-primary hover:-translate-y-2 transition"
+            className="w-30 h-14 px-8 text-primary"
             type="button"
             onClick={() => navigateTo('/signup')}>
             회원가입

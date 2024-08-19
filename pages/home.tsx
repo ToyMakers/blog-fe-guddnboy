@@ -13,14 +13,13 @@ const home = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem('access_token');
+    localStorage.clear();
     navigateTo('/login');
   };
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     const fetchProfile = async () => {
-      const token = localStorage.getItem('access_token');
       if (!token) {
         alert('로그인이 필요합니다.');
         router.push('/login');
@@ -42,6 +41,7 @@ const home = () => {
       } catch (error) {
         console.error(error);
         alert('프로필을 가져오는 데 실패했습니다.');
+        navigateTo('/login');
       }
     };
     fetchProfile();

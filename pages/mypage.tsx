@@ -102,6 +102,7 @@ const mypage = () => {
       } catch (error) {
         console.error(error);
         alert('프로필을 가져오는 데 실패했습니다.');
+        navigateTo('/login');
       }
     };
     fetchProfile();
