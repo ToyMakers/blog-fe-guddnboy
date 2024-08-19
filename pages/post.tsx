@@ -17,6 +17,11 @@ const post = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      navigateTo('/login');
+    }
     setTitle('');
     // setTag('');
     setContent('');
