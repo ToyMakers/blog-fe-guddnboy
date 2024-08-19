@@ -123,6 +123,7 @@ const SignUp = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
+          <div>{username.length}/8</div>
           <div className="mb-2 h-12">
             <input
               className="w-80 mb-2 h-12"
@@ -150,13 +151,15 @@ const SignUp = () => {
               onChange={(e) => setNickname(e.target.value)}
             />
           </div>
-          <div className="mb-2">
+          <div>{nickname.length}/8</div>
+          <div className="mb-2 flex flex-col">
             <textarea
               className="w-80 mb-2 h-40 resize-none"
               placeholder="소개를 입력하세요."
               value={bio}
               onChange={(e) => setBio(e.target.value)}
             />
+            <div>{bio.length}/200</div>
           </div>
           <div className="mb-2">
             <button
