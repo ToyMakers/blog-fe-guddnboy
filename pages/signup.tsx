@@ -59,11 +59,7 @@ const SignUp = () => {
       return;
     }
 
-    if (bio === '') {
-      alert('자기소개를 입력해주세요.');
-      return;
-    }
-    if (bio.length > 200) {
+    if (bio && bio.length > 200) {
       alert('자기소개는 200자 이하로 작성해주세요.');
       return;
     }
@@ -156,10 +152,10 @@ const SignUp = () => {
             <textarea
               className="w-80 mb-2 h-40 resize-none"
               placeholder="소개를 입력하세요."
-              value={bio}
+              value={bio ?? ''}
               onChange={(e) => setBio(e.target.value)}
             />
-            <div>{bio.length}/200</div>
+            <div>{bio?.length}/200</div>
           </div>
           <div className="mb-2">
             <button
