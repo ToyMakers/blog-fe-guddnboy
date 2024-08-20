@@ -163,13 +163,13 @@ const mypage = () => {
               <section>
                 <textarea
                   className="resize-none w-full h-40 align-middle bg-slate-100 rounded-sm outline-slate-800 outline-1"
-                  value={bio}
+                  value={bio ? bio : ''}
                   data-selector="bio"
                   onChange={(e) => {
                     setBio(e.target.value);
                   }}></textarea>
                 <div className="flex justify-end">
-                  <div className="font-titleColor pr-4">{bio.length}/200</div>
+                  <div className="font-titleColor pr-4">{bio?.length}/200</div>
                   <button
                     onClick={() => updateBio()}
                     className="w-10 bg-modifyfont rounded-sm text-white hover:bg-modifyfontHover ">
