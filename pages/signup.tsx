@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import useStore from '../store/store';
+import userStore from '../store/userStore';
 import Image from 'next/image';
 import BackBtn from '../public/assets/backbtn.png';
 
@@ -17,7 +17,7 @@ const SignUp = () => {
     setPasswordConfirm,
     setNickname,
     setBio,
-  } = useStore();
+  } = userStore();
 
   useEffect(() => {
     setUsername('');
@@ -102,16 +102,22 @@ const SignUp = () => {
   const displayValidationMessage = (username: string) => {
     const EngRegex = /[a-zA-Z]/;
     const NumRegex = /[0-9]/;
+    const NumEngRegex = /^[a-zA-Z0-9]*$/;
     const isEngValid = EngRegex.test(username);
     const isNumValid = NumRegex.test(username);
+    const isNumEngValid = NumEngRegex.test(username);
     const isLengthValid = username.length <= 8;
 
     return username ? (
       <div className="flex gap-4">
-        <div className={isEngValid && isNumValid ? 'text-green-600' : 'text-red-600'}>
+        <div
+          className={isEngValid && isNumValid && isNumEngValid ? 'text-green-600' : 'text-red-600'}>
           영문자와 숫자 조합
         </div>
-        <div className={isNumValid && isLengthValid ? 'text-green-600' : 'text-red-600'}>
+        <div
+          className={
+            isNumValid && isLengthValid && isNumEngValid ? 'text-green-600' : 'text-red-600'
+          }>
           {username.length}/8
         </div>
       </div>
