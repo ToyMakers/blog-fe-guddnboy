@@ -99,6 +99,27 @@ const SignUp = () => {
     }
   };
 
+  const displayValidationMessage = (username: string) => {
+    const EngRegex = /[a-zA-Z]/;
+    const NumRegex = /[0-9]/;
+    const isEngValid = EngRegex.test(username);
+    const isNumValid = NumRegex.test(username);
+    const isLengthValid = username.length <= 8;
+
+    return username ? (
+      <div className="flex gap-4">
+        <div className={isEngValid && isNumValid ? 'text-green-600' : 'text-red-600'}>
+          영문자와 숫자 조합
+        </div>
+        <div className={isNumValid && isLengthValid ? 'text-green-600' : 'text-red-600'}>
+          {username.length}/8
+        </div>
+      </div>
+    ) : (
+      <div>아이디를 입력해주세요</div>
+    );
+  };
+
   return (
     <main className="flex min-h-screen items-center p-24 justify-center">
       <div className="flex justify-between">
@@ -119,7 +140,7 @@ const SignUp = () => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div>{username.length}/8</div>
+          <section className="flex">{displayValidationMessage(username)}</section>
           <div className="mb-2 h-12">
             <input
               className="w-80 mb-2 h-12"
