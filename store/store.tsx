@@ -5,7 +5,7 @@ interface UserState {
   password: string;
   passwordConfirm: string;
   nickname: string;
-  bio: string;
+  bio: string | null;
   setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   setPasswordConfirm: (passwordConfirm: string) => void;
