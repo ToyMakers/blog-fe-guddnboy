@@ -143,6 +143,18 @@ const SignUp = () => {
     );
   };
 
+  const displayConfirmPassword = (password: string, passwordConfirm: string) => {
+    if (password === '' || passwordConfirm === '') {
+      return <div>비밀번호를 입력해주세요</div>;
+    } else {
+      return password === passwordConfirm ? (
+        <div className="text-green-600">비밀번호가 일치합니다.</div>
+      ) : (
+        <div className="text-red-600">비밀번호가 일치하지 않습니다.</div>
+      );
+    }
+  };
+
   return (
     <main className="flex min-h-screen items-center p-24 justify-center">
       <div className="flex justify-between">
@@ -182,6 +194,7 @@ const SignUp = () => {
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </div>
+          <section>{displayConfirmPassword(password, passwordConfirm)}</section>
           <div className="mb-2 h-12">
             <input
               className="w-80 mb-2 h-12"
