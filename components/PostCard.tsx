@@ -1,8 +1,15 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 const BlogCard = () => {
+  const router = useRouter();
+
+  const navigateTo = (path: string) => {
+    router.push(path);
+  };
+
   return (
-    <div className="gap-4">
+    <div className="gap-4" onClick={() => navigateTo('postDetail')}>
       <li className="blog-card flex flex-col w-full h-full text-titleColor">
         <div className="flex justify-center items-center text-center w-full h-[48px] border-b-[1px] border-b-slate-200 text-[18px]">
           블로그 제목 표시
