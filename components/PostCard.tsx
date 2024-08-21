@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const BlogCard = () => {
+const PostCard = () => {
   const router = useRouter();
 
   const navigateTo = (path: string) => {
@@ -23,4 +23,4 @@ const BlogCard = () => {
   );
 };
 
-export default BlogCard;
+export default PostCard;
