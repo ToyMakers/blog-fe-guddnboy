@@ -6,6 +6,9 @@ import BackBtn from '../public/assets/backbtn.png';
 
 const SignUp = () => {
   const router = useRouter();
+  const usernameRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])/;
+  const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[~!@#$%^&*()])/;
+
   const {
     username,
     password,
@@ -33,13 +36,11 @@ const SignUp = () => {
       return;
     }
 
-    const usernameRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])/;
     if (!usernameRegex.test(username)) {
       alert('아이디는 영문자와 숫자만 입력 가능합니다.');
       return;
     }
 
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()])/;
     if (!passwordRegex.test(password)) {
       alert('비밀번호는 영문자와 특수문자(~!@#$%^&*())를 포함하여야 합니다.');
       return;
@@ -103,6 +104,7 @@ const SignUp = () => {
     const EngRegex = /[a-zA-Z]/;
     const NumRegex = /[0-9]/;
     const NumEngRegex = /^[a-zA-Z0-9]*$/;
+
     const isEngValid = EngRegex.test(username);
     const isNumValid = NumRegex.test(username);
     const isNumEngValid = NumEngRegex.test(username);
@@ -126,6 +128,21 @@ const SignUp = () => {
     );
   };
 
+  const displayValidationPassword = (password: string) => {
+    const isPasswordValid = passwordRegex.test(password);
+
+    return password ? (
+      <div className="flex gap-4">
+        <div className={isPasswordValid ? 'text-green-600' : 'text-red-600'}>
+          영문자와 특수문자 조합
+        </div>
+        <div className={isPasswordValid ? 'text-green-600' : 'text-red-600'}></div>
+      </div>
+    ) : (
+      <div>비밀번호를 입력해주세요</div>
+    );
+  };
+
   return (
     <main className="flex min-h-screen items-center p-24 justify-center">
       <div className="flex justify-between">
@@ -136,7 +153,6 @@ const SignUp = () => {
             </button>
           </div>
           <div className="text-2xl h-12 font-bold text-center">회원가입</div>
-
           <div className="mb-2 h-12">
             <input
               className="w-80 mb-2 h-12"
@@ -156,6 +172,7 @@ const SignUp = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <section>{displayValidationPassword(password)}</section>
           <div className="mb-2 h-12">
             <input
               className="w-80 mb-2 h-12"
