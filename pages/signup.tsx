@@ -134,7 +134,7 @@ const SignUp = () => {
     return password ? (
       <div className="flex gap-4">
         <div className={isPasswordValid ? 'text-green-600' : 'text-red-600'}>
-          영문자와 특수문자 조합
+          영문자와 숫자,특수문자 조합
         </div>
         <div className={isPasswordValid ? 'text-green-600' : 'text-red-600'}></div>
       </div>
@@ -145,7 +145,7 @@ const SignUp = () => {
 
   const displayConfirmPassword = (password: string, passwordConfirm: string) => {
     if (password === '' || passwordConfirm === '') {
-      return <div>비밀번호를 다시 입력해주세요</div>;
+      return <div>비밀번호를 다시 입력하세요</div>;
     } else {
       return password === passwordConfirm ? (
         <div className="text-green-600">비밀번호가 일치합니다.</div>
@@ -164,6 +164,18 @@ const SignUp = () => {
       } else {
         return <div className="text-green-600">{nickname.length}/8</div>;
       }
+    }
+  };
+
+  const displayValidateBio = (bio: string | null) => {
+    if (bio === '') {
+      return <div className="text-green-600">{bio.length}/200</div>;
+    } else {
+      (bio?.length ?? 0) <= 200 ? (
+        <div className="text-green-600">{bio?.length ?? 0}/200</div>
+      ) : (
+        <div className="text-red-600">{bio?.length ?? 0}/200</div>
+      );
     }
   };
   return (
@@ -223,7 +235,7 @@ const SignUp = () => {
               value={bio ?? ''}
               onChange={(e) => setBio(e.target.value)}
             />
-            <div>{bio?.length}/200</div>
+            <section>{displayValidateBio(bio)}</section>
           </div>
           <div className="mb-2">
             <button
