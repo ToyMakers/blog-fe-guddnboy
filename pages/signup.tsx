@@ -169,10 +169,10 @@ const SignUp = () => {
 
   const displayValidateBio = (bio: string | null) => {
     if (bio === '') {
-      return <div className="text-green-600">{bio.length}/200</div>;
+      return <div className="text-green-600">{bio?.length ?? 0}/200</div>;
     } else {
-      (bio?.length ?? 0) <= 200 ? (
-        <div className="text-green-600">{bio?.length ?? 0}/200</div>
+      return bio?.length && bio.length <= 200 ? (
+        <div className="text-green-600">{bio.length}/200</div>
       ) : (
         <div className="text-red-600">{bio?.length ?? 0}/200</div>
       );
