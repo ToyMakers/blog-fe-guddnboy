@@ -155,6 +155,17 @@ const SignUp = () => {
     }
   };
 
+  const displayValidateNickname = (nickname: string) => {
+    if (nickname === '') {
+      return <div>닉네임을 입력해주세요</div>;
+    } else {
+      if (nickname.length > 8) {
+        return <div className="text-red-600">{nickname.length}/8</div>;
+      } else {
+        return <div className="text-green-600">{nickname.length}/8</div>;
+      }
+    }
+  };
   return (
     <main className="flex min-h-screen items-center p-24 justify-center">
       <div className="flex justify-between">
@@ -204,7 +215,7 @@ const SignUp = () => {
               onChange={(e) => setNickname(e.target.value)}
             />
           </div>
-          <div>{nickname.length}/8</div>
+          <section>{displayValidateNickname(nickname)}</section>
           <div className="mb-2 flex flex-col">
             <textarea
               className="w-80 mb-2 h-40 resize-none"
