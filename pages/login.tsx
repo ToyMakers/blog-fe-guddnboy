@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import useStore from '../store/store';
+import userStore from '../store/userStore';
 import { Url } from 'next/dist/shared/lib/router/router';
 
 const Login = () => {
   const router = useRouter();
-  const { username, password, setUsername, setPassword } = useStore();
+  const { username, password, setUsername, setPassword } = userStore();
 
   useEffect(() => {
     setUsername('');

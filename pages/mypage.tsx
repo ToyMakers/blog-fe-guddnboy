@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import useStore from '../store/store';
+import userStore from '../store/userStore';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import Footer from '@/components/Footer';
 
 const mypage = () => {
-  const { nickname, bio, setNickname, setBio } = useStore();
+  const { nickname, bio, setNickname, setBio } = userStore();
   const [initialNickname, setInitialNickname] = useState('');
   const [initialBio, setInitialBio] = useState('');
   const [isEditingNickname, setisEditingNickname] = useState(false);
@@ -49,8 +49,8 @@ const mypage = () => {
     const token = localStorage.getItem('access_token');
     setisEditingBio(!isEditingBio);
 
-    if (!bioRegex.test(bio)) {
-      alert(`소개는 200자 이내로 작성해주세요.\n(${bio.length} / 200)`);
+    if (!bioRegex.test(bio ?? '')) {
+      alert(`소개는 200자 이내로 작성해주세요.\n(${bio?.length} / 200)`);
       setisEditingBio(!isEditingBio);
       setBio(initialBio);
     } else {
@@ -66,7 +66,7 @@ const mypage = () => {
             bio,
           }),
         });
-        setInitialBio(bio);
+        setInitialBio(bio?.length ? bio : '');
       } catch (error) {
         console.error(error);
         alert('소개를 수정하는 데 실패했습니다. 다시 시도해주세요.');
@@ -163,13 +163,13 @@ const mypage = () => {
               <section>
                 <textarea
                   className="resize-none w-full h-40 align-middle bg-slate-100 rounded-sm outline-slate-800 outline-1"
-                  value={bio}
+                  value={bio ? bio : ''}
                   data-selector="bio"
                   onChange={(e) => {
                     setBio(e.target.value);
                   }}></textarea>
                 <div className="flex justify-end">
-                  <div className="font-titleColor pr-4">{bio.length}/200</div>
+                  <div className="font-titleColor pr-4">{bio?.length}/200</div>
                   <button
                     onClick={() => updateBio()}
                     className="w-10 bg-modifyfont rounded-sm text-white hover:bg-modifyfontHover ">

@@ -13,7 +13,7 @@ interface UserState {
   setBio: (bio: string) => void;
 }
 
-const useStore = create<UserState>((set) => ({
+const userStore = create<UserState>((set) => ({
   username: '',
   password: '',
   passwordConfirm: '',
@@ -26,4 +26,4 @@ const useStore = create<UserState>((set) => ({
   setBio: (bio) => set({ bio }),
 }));
 
-export default useStore;
+export default userStore;
