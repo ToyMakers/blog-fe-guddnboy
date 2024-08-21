@@ -145,7 +145,7 @@ const SignUp = () => {
 
   const displayConfirmPassword = (password: string, passwordConfirm: string) => {
     if (password === '' || passwordConfirm === '') {
-      return <div>비밀번호를 입력해주세요</div>;
+      return <div>비밀번호를 다시 입력해주세요</div>;
     } else {
       return password === passwordConfirm ? (
         <div className="text-green-600">비밀번호가 일치합니다.</div>
