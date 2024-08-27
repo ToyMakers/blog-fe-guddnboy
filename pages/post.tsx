@@ -87,6 +87,7 @@ const post = () => {
   };
 
   const searchCategory = async () => {
+    const categoryNames: string[] = [];
     const token = localStorage.getItem('access_token');
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/categories`, {
@@ -97,8 +98,17 @@ const post = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        return data;
+        data.map((category: { name: string }) => {
+          categoryNames.push(category.name);
+        });
+        console.log(categoryNames);
+        return (
+          <ul className="flex-col">
+            {categoryNames.map((category, index) => (
+              <li key={index}>{category}</li>
+            ))}
+          </ul>
+        );
       } else {
         const errorData = await response.json();
         alert(`카테고리 조회에 실패했습니다: ${errorData.message}`);

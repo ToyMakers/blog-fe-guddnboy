@@ -110,7 +110,7 @@ const mypage = () => {
       }
     };
     fetchProfile();
-  }, [setNickname, setBio, router]);
+  }, [nickname, bio, router]);
 
   return (
     <Fragment>
