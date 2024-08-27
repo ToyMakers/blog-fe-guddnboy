@@ -57,6 +57,58 @@ const post = () => {
       alert('포스팅에 실패했습니다.');
     }
   };
+
+  const addCategory = async (category: string) => {
+    const token = localStorage.getItem('access_token');
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/categories`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: category,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        alert('카테고리가 추가되었습니다.');
+        return data;
+      } else {
+        const errorData = await response.json();
+        alert(`카테고리 추가에 실패했습니다: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('카테고리 추가 중 오류 발생:', error);
+      alert('카테고리 추가에 실패했습니다.');
+    }
+  };
+
+  const searchCategory = async () => {
+    const token = localStorage.getItem('access_token');
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/categories`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        return data;
+      } else {
+        const errorData = await response.json();
+        alert(`카테고리 조회에 실패했습니다: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('카테고리 조회 중 오류 발생:', error);
+      alert('카테고리 조회에 실패했습니다.');
+    }
+  };
+
   return (
     <div className="flex flex-row mx-4">
       <div className="flex flex-col pl-8 w-[50%] h-[100vh] bg-white font-sans">
@@ -78,15 +130,22 @@ const post = () => {
               <input
                 value={category}
                 type="text"
-                placeholder="태그를 입력하세요"
+                placeholder="카테고리를 입력하세요"
                 className="w-full outline-none text-[18px] text-tagColor"
                 onChange={(e) => setCategory(e.target.value)}
               />
             </div>
             <div className="flex justify-center items-center mr-4">
+              <button
+                onClick={() => addCategory(category)}
+                value={category}
+                className="hover:cursor-pointer w-9 h-9 hover:bg-slate-300 hover:text-white transition">
+                추가
+              </button>
               <Image
                 src={searchBtn}
                 alt="검색"
+                onClick={searchCategory}
                 className="hover:cursor-pointer w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition"
               />
             </div>
