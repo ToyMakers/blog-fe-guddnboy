@@ -12,6 +12,10 @@ const mypage = () => {
   const [isEditingBio, setisEditingBio] = useState(false);
   const router = useRouter();
   const navigateTo = (path: string) => router.push(path);
+  const logout = () => {
+    localStorage.clear();
+    navigateTo('/login');
+  };
 
   const nicknameRegex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,8}$/;
   const bioRegex = /^[a-zA-Z0-9ㄱ-ㅎ가-힣\n .,!@#$%^&*()\-_=+\[\]{}|;:'",.<>?/\\]{1,200}$/;
@@ -111,7 +115,7 @@ const mypage = () => {
   return (
     <Fragment>
       <section className="mt-8 mx-10">
-        <Header nickname={nickname} logout={function (): void {}} navigateTo={navigateTo} />
+        <Header nickname={nickname} logout={logout} navigateTo={navigateTo} />
       </section>
       <div className="flex flex-col w-full justify-center items-center">
         <div className="mt-12 items-center">
