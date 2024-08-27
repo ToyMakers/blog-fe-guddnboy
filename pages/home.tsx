@@ -50,7 +50,7 @@ const home = () => {
   useEffect(() => {
     fetchProfile();
     getPosts();
-  }, [setNickname, router]);
+  }, [nickname, router]);
 
   const getPosts = async () => {
     const token = localStorage.getItem('access_token');
