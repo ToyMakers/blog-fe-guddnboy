@@ -8,7 +8,7 @@ import { Url } from 'next/dist/shared/lib/router/router';
 import postStore from '@/store/postStore';
 
 const post = () => {
-  const { title, category, content, setTitle, setCategory, setContent } = postStore();
+  const { title, category, content, updateTitle, updateCategory, updateContent } = postStore();
 
   const router = useRouter();
   const navigateTo = async (path: Url) => {
@@ -21,9 +21,9 @@ const post = () => {
       alert('로그인이 필요합니다.');
       navigateTo('/login');
     }
-    setTitle('');
-    setCategory('');
-    setContent('');
+    updateTitle('');
+    updateCategory('');
+    updateContent('');
   }, []);
 
   const posting = async () => {
@@ -103,7 +103,7 @@ const post = () => {
         });
         console.log(categoryNames);
         return (
-          <ul className="flex-col">
+          <ul className="flex-col bg-slate-500 text-white">
             {categoryNames.map((category, index) => (
               <li key={index}>{category}</li>
             ))}
@@ -129,7 +129,7 @@ const post = () => {
               type="text"
               placeholder="제목을 입력하세요"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => updateTitle(e.target.value)}
             />
           </div>
           <div className="mt-4 border-b-[6px] border-gray-800 w-[80px]"></div>
@@ -142,7 +142,7 @@ const post = () => {
                 type="text"
                 placeholder="카테고리를 입력하세요"
                 className="w-full outline-none text-[18px] text-tagColor"
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => updateCategory(e.target.value)}
               />
             </div>
             <div className="flex justify-center items-center mr-4">
@@ -167,7 +167,7 @@ const post = () => {
               className="w-full h-[400px] mt-5 resize-none outline-none text-tagColor text-[18px] placeholder:italic"
               value={content}
               placeholder="당신의 이야기를 적어보세요..."
-              onChange={(e) => setContent(e.target.value)}
+              onChange={(e) => updateContent(e.target.value)}
             />
           </div>
         </section>

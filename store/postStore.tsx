@@ -1,29 +1,27 @@
 import { create } from 'zustand';
 
-interface PostStoreProps {
+type State = {
   title: string;
   content: string;
   category: string;
   id: string;
   author: string;
-  setTitle: (title: string) => void;
-  setContent: (content: string) => void;
-  setCategory: (category: string) => void;
-  setId: (id: string) => void;
-  setAuthor: (author: string) => void;
-}
+};
+type Actions = {
+  updateTitle: (title: State['title']) => void;
+  updateContent: (content: State['content']) => void;
+  updateCategory: (category: State['category']) => void;
+};
 
-const postStore = create<PostStoreProps>((set) => ({
+const postStore = create<State & Actions>((set) => ({
   title: '',
   content: '',
   category: '',
   id: '',
   author: '',
-  setTitle: (title) => set({ title }),
-  setContent: (content) => set({ content }),
-  setCategory: (category) => set({ category }),
-  setId: (id) => set({ id }),
-  setAuthor: (author) => set({ author }),
+  updateTitle: (title) => set(() => ({ title: title })),
+  updateContent: (content) => set(() => ({ content: content })),
+  updateCategory: (category) => set(() => ({ category: category })),
 }));
 
 export default postStore;
