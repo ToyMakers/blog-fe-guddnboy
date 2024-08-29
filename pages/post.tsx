@@ -200,7 +200,7 @@ const post = () => {
             <Image
               src={searchBtn}
               alt="검색"
-              onClick={searchCategory}
+              onClick={() => (category === '' ? searchCategory() : searchCategoryByName(category))}
               className="hover:cursor-pointer w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition"
             />
           </div>
