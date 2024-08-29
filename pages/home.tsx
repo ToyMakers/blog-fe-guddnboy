@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import userStore from '../store/userStore';
+import postListStore from '../store/postListStore';
 
 const home = () => {
   const router = useRouter();
   const { nickname, setNickname } = userStore();
-  const [postList, setPostList] = useState([]);
+  const { postList, setPostList } = postListStore();
 
   const navigateTo = (path: string) => {
     router.push(path);
@@ -75,6 +76,7 @@ const home = () => {
     }
   };
 
+  console.log(postList);
   return (
     <div className="mx-10 mt-8">
       <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
