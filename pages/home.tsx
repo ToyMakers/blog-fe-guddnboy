@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import userStore from '../store/userStore';
 import postListStore from '../store/postListStore';
+import PostDetailModal from '../components/PostDetailModal';
 
 const home = () => {
   const router = useRouter();
@@ -48,6 +49,19 @@ const home = () => {
     }
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const openModal = (post: any) => {
+    setSelectedPost(post);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPost(null);
+  };
+
   useEffect(() => {
     fetchProfile();
     getPosts();
@@ -67,9 +81,7 @@ const home = () => {
         throw new Error('포스트를 가져오는 데 실패했습니다.');
       }
       const data = await response.json();
-      for (let i = 0; i < data.length; i++) {
-        setPostList(data);
-      }
+      setPostList(data);
     } catch (error) {
       console.error(error);
       alert('포스트를 가져오는 데 실패했습니다.');
@@ -85,11 +97,17 @@ const home = () => {
             .slice()
             .reverse()
             .map((post, index) => (
-              <PostCard key={index} post={post} />
+              <li key={index} onClick={() => openModal(post)}>
+                <PostCard post={post} />
+              </li>
             ))}
         </ul>
       </section>
       <Footer />
+
+      {isModalOpen && (
+        <PostDetailModal isOpen={isModalOpen} onClose={closeModal} post={selectedPost} />
+      )}
     </div>
   );
 };
