@@ -8,7 +8,7 @@ const PostCard = ({ post }: { post: any }) => {
   };
 
   return (
-    <div className="gap-4" onClick={() => navigateTo('/postDetail')}>
+    <div className="gap-4">
       <li className="blog-card flex flex-col w-full h-full text-titleColor">
         <div className="flex justify-center items-center text-center w-full h-[48px] border-b-[1px] border-b-slate-200 text-[18px]">
           {post.title}
