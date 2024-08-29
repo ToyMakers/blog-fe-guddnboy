@@ -116,7 +116,6 @@ const post = () => {
         data.map((category: { name: string }) => {
           addCategoryIntoCategories(category.name);
         });
-        console.log(categories);
         return (
           <ul className="flex-col bg-slate-500 text-white">
             {categories.map((category, index) => (
@@ -149,7 +148,6 @@ const post = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         if (data.length === 0) {
           alert('검색 결과가 없습니다.');
           return;

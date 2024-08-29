@@ -76,7 +76,6 @@ const home = () => {
     }
   };
 
-  console.log(postList);
   return (
     <div className="mx-10 mt-8">
       <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
