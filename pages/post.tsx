@@ -8,7 +8,19 @@ import { Url } from 'next/dist/shared/lib/router/router';
 import postStore from '@/store/postStore';
 
 const post = () => {
-  const { title, category, content, updateTitle, updateCategory, updateContent } = postStore();
+  const {
+    title,
+    category,
+    content,
+    categories,
+
+    setTitle,
+    setContent,
+    setCategory,
+    setCategories,
+
+    addCategoryIntoCategories,
+  } = postStore();
 
   const router = useRouter();
   const navigateTo = async (path: Url) => {
@@ -21,10 +33,10 @@ const post = () => {
       alert('로그인이 필요합니다.');
       navigateTo('/login');
     }
-    updateTitle('');
-    updateCategory('');
-    updateContent('');
-  }, []);
+    setTitle('');
+    setCategory('');
+    setContent('');
+  }, [setTitle, setCategory, setContent, router]);
 
   const posting = async () => {
     const token = localStorage.getItem('access_token');
@@ -75,6 +87,8 @@ const post = () => {
       if (response.ok) {
         const data = await response.json();
         alert('카테고리가 추가되었습니다.');
+        addCategoryIntoCategories(data);
+        searchCategory();
         return data;
       } else {
         const errorData = await response.json();
@@ -87,28 +101,60 @@ const post = () => {
   };
 
   const searchCategory = async () => {
-    const categoryNames: string[] = [];
     const token = localStorage.getItem('access_token');
+    setCategories([]);
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/categories`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       });
       if (response.ok) {
         const data = await response.json();
         data.map((category: { name: string }) => {
-          categoryNames.push(category.name);
+          addCategoryIntoCategories(category.name);
         });
-        console.log(categoryNames);
+        console.log(categories);
         return (
           <ul className="flex-col bg-slate-500 text-white">
-            {categoryNames.map((category, index) => (
+            {categories.map((category, index) => (
               <li key={index}>{category}</li>
             ))}
           </ul>
         );
+      } else {
+        const errorData = await response.json();
+        alert(`카테고리 조회에 실패했습니다: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('카테고리 조회 중 오류 발생:', error);
+      alert('카테고리 조회에 실패했습니다.');
+    }
+  };
+
+  const searchCategoryByName = async (categoryName: string) => {
+    const token = localStorage.getItem('access_token');
+    const name = encodeURIComponent(categoryName);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_API_URL}/categories/search?query=${name}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        if (data.length === 0) {
+          alert('검색 결과가 없습니다.');
+          return;
+        }
+        return data;
       } else {
         const errorData = await response.json();
         alert(`카테고리 조회에 실패했습니다: ${errorData.message}`);
@@ -129,36 +175,53 @@ const post = () => {
               type="text"
               placeholder="제목을 입력하세요"
               value={title}
-              onChange={(e) => updateTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className="mt-4 border-b-[6px] border-gray-800 w-[80px]"></div>
         </section>
-        <section className="flex flex-row mt-5 h-full">
-          <div className="flex justify-between text-tagColor w-full">
-            <div className="flex justify-center items-center">
-              <input
-                value={category}
-                type="text"
-                placeholder="카테고리를 입력하세요"
-                className="w-full outline-none text-[18px] text-tagColor"
-                onChange={(e) => updateCategory(e.target.value)}
-              />
-            </div>
-            <div className="flex justify-center items-center mr-4">
-              <button
-                onClick={() => addCategory(category)}
-                value={category}
-                className="hover:cursor-pointer w-9 h-9 hover:bg-slate-300 hover:text-white transition">
-                추가
-              </button>
-              <Image
-                src={searchBtn}
-                alt="검색"
-                onClick={searchCategory}
-                className="hover:cursor-pointer w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition"
-              />
-            </div>
+        <section className="flex justify-between">
+          <div className="flex justify-center items-center">
+            <input
+              value={category}
+              type="text"
+              placeholder="카테고리를 입력하세요"
+              className="w-full outline-none text-[18px] text-tagColor"
+              onChange={(e) => setCategory(e.target.value)}
+            />
+          </div>
+          <div className="flex justify-center items-center mr-4">
+            <button
+              onClick={() => addCategory(category)}
+              value={category}
+              className="hover:cursor-pointer w-9 h-9 hover:bg-slate-300 hover:text-white transition">
+              추가
+            </button>
+            <Image
+              src={searchBtn}
+              alt="검색"
+              onClick={searchCategory}
+              className="hover:cursor-pointer w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition"
+            />
+          </div>
+          {/* <button
+            onClick={() => searchCategory()}
+            className="w-16 h-8 bg-slate-500 text-sm text-white p-1 rounded hover:bg-slate-300 ">
+            카테고리
+          </button> */}
+        </section>
+        <section className="h-32 border-solid">
+          <div className="overflow-x-auto">
+            <ul className="flex flex-row gap-2 w-full">
+              {categories.map((categorydata, index) => (
+                <li
+                  key={index}
+                  className="inline-flex items-center h-8 px-4 bg-slate-400 text-white rounded-md text-sm whitespace-nowrap hover:cursor-pointer hover:bg-slate-200 hover:text-gray-700"
+                  onClick={() => setCategory(categorydata)}>
+                  {categorydata}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
         <section className="w-full h-[100vh]">
@@ -167,7 +230,7 @@ const post = () => {
               className="w-full h-[400px] mt-5 resize-none outline-none text-tagColor text-[18px] placeholder:italic"
               value={content}
               placeholder="당신의 이야기를 적어보세요..."
-              onChange={(e) => updateContent(e.target.value)}
+              onChange={(e) => setContent(e.target.value)}
             />
           </div>
         </section>
