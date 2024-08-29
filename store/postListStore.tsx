@@ -1,6 +1,14 @@
 import { create } from 'zustand';
 
-const postListStore = create((set) => ({
+type State = {
+  postList: [];
+};
+
+type Actions = {
+  setPostList: (postList: []) => void;
+};
+
+const postListStore = create<State & Actions>((set) => ({
   postList: [],
   setPostList: (postList: []) => set({ postList }),
 }));
