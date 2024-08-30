@@ -27,6 +27,8 @@ const post = () => {
     router.push(path);
   };
 
+  const [selectedCategory, setSelectedCategory] = useState('');
+
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -50,7 +52,7 @@ const post = () => {
         },
         body: JSON.stringify({
           title,
-          category,
+          categories,
           content,
         }),
       });
@@ -62,6 +64,7 @@ const post = () => {
         throw new Error('포스팅에 실패했습니다. response.ok가 false입니다.');
       }
       console.log(response.body);
+      console.log(categories);
       alert('포스팅에 성공했습니다.');
       router.push('/home');
     } catch (error) {
@@ -134,7 +137,6 @@ const post = () => {
   };
 
   const searchCategoryByName = async (categoryName: string) => {
-    const token = localStorage.getItem('access_token');
     const name = encodeURIComponent(categoryName);
     try {
       const response = await fetch(
@@ -152,7 +154,9 @@ const post = () => {
           alert('검색 결과가 없습니다.');
           return;
         }
-        return data;
+        setSelectedCategory(data);
+        console.log(selectedCategory);
+        return selectedCategory;
       } else {
         const errorData = await response.json();
         alert(`카테고리 조회에 실패했습니다: ${errorData.message}`);
