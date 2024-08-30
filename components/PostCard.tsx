@@ -14,9 +14,12 @@ const PostCard = ({ post }: { post: any }) => {
           {post.title}
         </div>
         <div className="text-[16px] h-[210px] m-2">{post.content}</div>
-        <footer className="flex items-center w-full h-[48px] text-left pl-4 text-[14px] border-t-[1px] border-t-slate-200">
-          <div>by {post.author}</div>
-          <div>{post.category}</div>
+        <footer className="flex items-center w-full h-12 text-left pl-4 text-[14px] border-t-[1px] border-t-slate-200">
+          <div className="flex justify-between">
+            <div className="pr-4">by {post.author}</div>
+            <div className="">Like: {post.likes}</div>
+          </div>
+          {/* <div>{post.categories}</div> */}
         </footer>
       </li>
     </div>
