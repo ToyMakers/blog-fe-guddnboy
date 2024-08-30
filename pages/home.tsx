@@ -5,7 +5,6 @@ import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import userStore from '../store/userStore';
 import postListStore from '../store/postListStore';
-import PostDetailModal from '../components/PostDetailModal';
 
 const home = () => {
   const router = useRouter();
@@ -49,24 +48,6 @@ const home = () => {
     }
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
-
-  const openModal = (post: any) => {
-    setSelectedPost(post);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedPost(null);
-  };
-
-  useEffect(() => {
-    fetchProfile();
-    getPosts();
-  }, [nickname, router]);
-
   const getPosts = async () => {
     const token = localStorage.getItem('access_token');
     try {
@@ -88,6 +69,26 @@ const home = () => {
     }
   };
 
+  const handlePostClick = (post: any) => {
+    router.push({
+      pathname: '/postdetail',
+      query: {
+        nickname: nickname,
+
+        postTitle: post.title,
+        postContent: post.content,
+        postAuthor: post.author,
+        postLikes: post.likes,
+        postCategories: post.categories,
+      },
+    });
+  };
+
+  useEffect(() => {
+    fetchProfile();
+    getPosts();
+  }, [nickname, router]);
+
   return (
     <div className="mx-10 mt-8">
       <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
@@ -97,17 +98,13 @@ const home = () => {
             .slice()
             .reverse()
             .map((post, index) => (
-              <li key={index} onClick={() => openModal(post)}>
+              <li key={index} onClick={() => handlePostClick(post)}>
                 <PostCard post={post} />
               </li>
             ))}
         </ul>
       </section>
       <Footer />
-
-      {isModalOpen && (
-        <PostDetailModal isOpen={isModalOpen} onClose={closeModal} post={selectedPost} />
-      )}
     </div>
   );
 };
