@@ -5,21 +5,17 @@ import backBtn from '../public/assets/backbtn.png';
 import postBtn from '../public/assets/postbtn.png';
 import { useRouter } from 'next/router';
 import { Url } from 'next/dist/shared/lib/router/router';
-import postStore from '@/store/postStore';
+import postStore from '../store/postStore';
 
 const post = () => {
   const {
     title,
-    category,
-    content,
     categories,
+    content,
 
     setTitle,
     setContent,
-    setCategory,
     setCategories,
-
-    addCategoryIntoCategories,
   } = postStore();
 
   const router = useRouter();
@@ -27,6 +23,7 @@ const post = () => {
     router.push(path);
   };
 
+  const [newCategory, setNewCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
@@ -36,9 +33,9 @@ const post = () => {
       navigateTo('/login');
     }
     setTitle('');
-    setCategory('');
+    setCategories([]);
     setContent('');
-  }, [setTitle, setCategory, setContent, router]);
+  }, [setTitle, setCategories, setContent, router]);
 
   const posting = async () => {
     const token = localStorage.getItem('access_token');
@@ -63,17 +60,16 @@ const post = () => {
         console.log(response.status);
         throw new Error('포스팅에 실패했습니다. response.ok가 false입니다.');
       }
-      console.log(response.body);
-      console.log(categories);
+      console.log(categories.map((category) => category));
       alert('포스팅에 성공했습니다.');
       router.push('/home');
     } catch (error) {
       console.error(error);
-      alert('포스팅에 실패했습니다.');
+      alert('포스팅에 실패했습니다.: catch문');
     }
   };
 
-  const addCategory = async (category: string) => {
+  const addCategory = async (newCategory: string) => {
     const token = localStorage.getItem('access_token');
 
     try {
@@ -84,14 +80,17 @@ const post = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: category,
+          name: newCategory,
         }),
       });
       if (response.ok) {
         const data = await response.json();
+        setNewCategory(data.name);
+        console.log('new Category: ', newCategory);
+
+        setCategories([...categories, newCategory]);
         alert('카테고리가 추가되었습니다.');
-        addCategoryIntoCategories(data);
-        searchCategory();
+        getAllCategory();
         return data;
       } else {
         const errorData = await response.json();
@@ -103,9 +102,10 @@ const post = () => {
     }
   };
 
-  const searchCategory = async () => {
+  const getAllCategory = async () => {
     const token = localStorage.getItem('access_token');
     setCategories([]);
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/categories`, {
         method: 'GET',
@@ -114,13 +114,18 @@ const post = () => {
           'Content-Type': 'application/json',
         },
       });
+
       if (response.ok) {
-        const data = await response.json();
-        data.map((category: { name: string }) => {
-          addCategoryIntoCategories(category.name);
-        });
+        const data: { name: string }[] = await response.json();
+
+        const categoryNames = data.map((category) => category.name);
+        setCategories(categoryNames);
+
+        console.log('categories : ');
+        console.log(categories);
+
         return (
-          <ul className="flex-col bg-slate-500 text-white">
+          <ul>
             {categories.map((category, index) => (
               <li key={index}>{category}</li>
             ))}
@@ -155,6 +160,7 @@ const post = () => {
           return;
         }
         setSelectedCategory(data);
+        console.log('selectedCategory: ');
         console.log(selectedCategory);
         return selectedCategory;
       } else {
@@ -185,32 +191,29 @@ const post = () => {
         <section className="flex justify-between">
           <div className="flex justify-center items-center">
             <input
-              value={category}
+              value={newCategory}
               type="text"
               placeholder="카테고리를 입력하세요"
               className="w-full outline-none text-[18px] text-tagColor"
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => setNewCategory(e.target.value)}
             />
           </div>
           <div className="flex justify-center items-center mr-4">
             <button
-              onClick={() => addCategory(category)}
-              value={category}
+              onClick={() => addCategory(newCategory)}
+              value={newCategory}
               className="hover:cursor-pointer w-9 h-9 hover:bg-slate-300 hover:text-white transition">
               추가
             </button>
             <Image
               src={searchBtn}
               alt="검색"
-              onClick={() => (category === '' ? searchCategory() : searchCategoryByName(category))}
+              onClick={() =>
+                selectedCategory === '' ? getAllCategory() : searchCategoryByName(selectedCategory)
+              }
               className="hover:cursor-pointer w-[36px] h-[36px] hover:bg-slate-300 rounded-full transition"
             />
           </div>
-          {/* <button
-            onClick={() => searchCategory()}
-            className="w-16 h-8 bg-slate-500 text-sm text-white p-1 rounded hover:bg-slate-300 ">
-            카테고리
-          </button> */}
         </section>
         <section className="h-32 border-solid">
           <div className="overflow-x-auto">
@@ -219,12 +222,13 @@ const post = () => {
                 <li
                   key={index}
                   className="inline-flex items-center h-8 px-4 bg-slate-400 text-white rounded-md text-sm whitespace-nowrap hover:cursor-pointer hover:bg-slate-200 hover:text-gray-700"
-                  onClick={() => setCategory(categorydata)}>
+                  onClick={() => setCategories([categorydata])}>
                   {categorydata}
                 </li>
               ))}
             </ul>
           </div>
+          <div>{selectedCategory}</div>
         </section>
         <section className="w-full h-[100vh]">
           <div>

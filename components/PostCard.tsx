@@ -1,12 +1,6 @@
-import { useRouter } from 'next/router';
 import React from 'react';
 
 const PostCard = ({ post }: { post: any }) => {
-  const router = useRouter();
-  const navigateTo = (path: string) => {
-    router.push(path);
-  };
-
   return (
     <div className="gap-4">
       <li className="blog-card flex flex-col w-full h-full text-titleColor">
