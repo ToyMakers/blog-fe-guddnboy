@@ -71,6 +71,24 @@ const PostDetail = () => {
     }
   };
 
+  const addLikes = async () => {
+    const token = localStorage.getItem('access_token');
+    try {
+      const response = fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/posts/${id}/like`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!(await response).ok) {
+        throw new Error('좋아요 추가에 실패했습니다.');
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   useEffect(() => {
     setNewTitle(title);
     setNewCategories(categories);
@@ -79,70 +97,92 @@ const PostDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center">
-      <div className="bg-white p-8 rounded-lg w-full relative">
+      <div className="flex flex-col bg-white rounded-lg w-full p-12">
         <Header nickname={nickname ?? ''} logout={logout} navigateTo={navigateTo} />
 
-        <section className="mt-6">
-          <div className="flex">
-            <div className="text-4xl w-full h-16 font-sans font-bold">
+        <div className="overflow-scroll">
+          <section className="mt-6">
+            <div className="flex">
+              <div className="text-4xl w-full h-16 font-sans font-bold">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="newTitle"
+                    className="text-4xl w-full h-16 font-sans font-bold"
+                    value={newTitle}
+                    onChange={handleInputChange}
+                    placeholder={title as string}
+                  />
+                ) : (
+                  <Fragment>{title}</Fragment>
+                )}
+              </div>
+              <button className="w-24 text-gray-600 text-lg" onClick={modifyPost}>
+                {isEditing ? '수정완료' : '수정'}
+              </button>
+              <button className="w-11 text-gray-600 text-lg" onClick={handleBack}>
+                목록
+              </button>
+            </div>
+            <div className="h-full border-b-[6px] border-gray-800 w-[80px]"></div>
+          </section>
+
+          <section className="flex mt-5 w-full">
+            <div className="w-full text-lg text-tagColor">
               {isEditing ? (
                 <input
                   type="text"
-                  name="newTitle"
-                  className="text-4xl w-full h-16 font-sans font-bold"
-                  value={newTitle}
+                  name="newCategories"
+                  placeholder={categories.map((category) => category).join(',')}
+                  className="w-full"
+                  value={newCategories}
                   onChange={handleInputChange}
-                  placeholder={title as string}
                 />
               ) : (
-                <Fragment>{title}</Fragment>
+                <>{categories}</>
               )}
             </div>
-            <button className="w-24 text-gray-600 text-lg" onClick={modifyPost}>
-              {isEditing ? '수정완료' : '수정'}
-            </button>
-            <button className="w-11 text-gray-600 text-lg" onClick={handleBack}>
-              목록
-            </button>
-          </div>
-          <div className="h-full border-b-[6px] border-gray-800 w-[80px]"></div>
-        </section>
+            <div className="text-lg text-tagColor">{author}</div>
+          </section>
 
-        <section className="flex mt-5 w-full">
-          <div className="w-full text-lg text-tagColor">
-            {isEditing ? (
-              <input
-                type="text"
-                name="newCategories"
-                placeholder={categories.map((category) => category).join(',')}
-                className="w-full"
-                value={newCategories}
-                onChange={handleInputChange}
-              />
-            ) : (
-              <>{categories}</>
-            )}
-          </div>
-          <div className="text-lg text-tagColor">{author}</div>
-        </section>
+          <section className="mt-5 h-96">
+            <div className="w-full text-tagColor text-[18px]">
+              {isEditing ? (
+                <textarea
+                  name="newContent"
+                  className="w-full h-96"
+                  placeholder={content as string}
+                  value={newContent}
+                  onChange={handleInputChange}></textarea>
+              ) : (
+                <>{content}</>
+              )}
+            </div>
+          </section>
+        </div>
 
-        <section className="mt-5">
-          <div className="w-full text-tagColor text-[18px]">
-            {isEditing ? (
+        <div className="w-full px-12 border-b-[1px] border-gray-200"></div>
+
+        <section className="flex justify-center pt-4 gap-4">
+          <div className="flex w-full">
+            <div className="w-full pr-4 flex items-center">
               <textarea
-                name="newContent"
-                className="w-full h-96"
-                placeholder={content as string}
-                value={newContent}
-                onChange={handleInputChange}></textarea>
-            ) : (
-              <>{content}</>
-            )}
+                placeholder="내용을 입력하세요."
+                className="w-full outline-none border border-gray-200 border-solid rounded p-2 resize-none"
+              />
+            </div>
+            <button className="w-16 text-m text-white bg-modifyfont hover:bg-modifyfontHover rounded-sm">
+              댓글달기
+            </button>
           </div>
-        </section>
 
-        <section>
-          <div>{likes}</div>
+          <div className="flex flex-col size-6 items-center">
+            <img src="/assets/likes.png" alt="likes" />
+            <div className="text-black text-sm">{likes}</div>
+            <button className="w-24 text-gray-600 text-lg" onClick={addLikes}>
+              좋아요
+            </button>
+          </div>
         </section>
       </div>
     </div>
