@@ -139,7 +139,15 @@ const PostDetail = () => {
                   onChange={handleInputChange}
                 />
               ) : (
-                <>{categories}</>
+                <ul className="flex flex-row gap-2 mt-2 overflow-x-scroll">
+                  {categories.map((category, index) => (
+                    <li
+                      key={index}
+                      className="inline-flex items-center h-8 px-4 bg-green-500 text-white rounded-md text-sm whitespace-nowrap">
+                      {category}
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
             <div className="text-lg text-tagColor">{author}</div>
