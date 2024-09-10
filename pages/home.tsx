@@ -4,21 +4,28 @@ import Header from '../components/Header';
 import PostCard from '../components/PostCard';
 import Footer from '../components/Footer';
 import userStore from '../store/userStore';
-import postListStore from '../store/postListStore';
 import postStore from '@/store/postStore';
+import postListStore from '@/store/postListStore';
 
-const home = () => {
+const Home = () => {
   const router = useRouter();
+
   const { nickname, setNickname } = userStore();
   const { postList, setPostList } = postListStore();
-  const setPostData = postStore((state) => state.setPostData) as (data: {
-    id: string;
-    title: string;
-    content: string;
-    author: string;
-    likes: number;
-    categories: string[];
-  }) => void;
+  const {
+    id,
+    title,
+    author,
+    content,
+    categories,
+    likes,
+    setId,
+    setTitle,
+    setAuthor,
+    setContent,
+    setCategories,
+    setLikes,
+  } = postStore();
 
   const navigateTo = (path: string) => {
     router.push(path);
@@ -68,8 +75,6 @@ const home = () => {
           'Content-Type': 'application/json',
         },
       });
-
-      console.log(response);
       if (!response.ok) {
         throw new Error('포스트를 가져오는 데 실패했습니다.: response.ok가 false입니다.');
       }
@@ -82,14 +87,12 @@ const home = () => {
   };
 
   const handlePostClick = (post: any) => {
-    setPostData({
-      id: post.id,
-      title: post.title,
-      content: post.content,
-      author: post.author,
-      likes: post.likes,
-      categories: post.categories,
-    });
+    setId(post.id);
+    setTitle(post.title);
+    setAuthor(post.author);
+    setContent(post.content);
+    setCategories(post.categories);
+    setLikes(post.likes);
 
     router.push(`/postdetail`);
   };
@@ -116,4 +119,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;

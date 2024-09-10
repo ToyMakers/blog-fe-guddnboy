@@ -25,7 +25,7 @@ const post = () => {
 
   const [newCategory, setNewCategory] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -102,6 +102,14 @@ const post = () => {
     }
   };
 
+  const removeCategory = (e: React.MouseEvent<HTMLLIElement>) => {
+    const categoryName = e.currentTarget.textContent;
+    if (!categoryName) {
+      return;
+    }
+    setSelectedCategories(selectedCategories.filter((category) => category !== categoryName));
+  };
+
   const getAllCategory = async () => {
     const token = localStorage.getItem('access_token');
     setCategories([]);
@@ -120,9 +128,6 @@ const post = () => {
 
         const categoryNames = data.map((category) => category.name);
         setCategories(categoryNames);
-
-        console.log('categories : ');
-        console.log(categories);
 
         return (
           <ul>
@@ -159,10 +164,10 @@ const post = () => {
           alert('검색 결과가 없습니다.');
           return;
         }
-        setSelectedCategory(data);
-        console.log('selectedCategory: ');
-        console.log(selectedCategory);
-        return selectedCategory;
+        const selectedCategory = data;
+        setSelectedCategories((prevCategories) => [...prevCategories, ...selectedCategory]);
+
+        return selectedCategories;
       } else {
         const errorData = await response.json();
         alert(`카테고리 조회에 실패했습니다: ${errorData.message}`);
@@ -188,7 +193,7 @@ const post = () => {
           </div>
           <div className="mt-4 border-b-[6px] border-gray-800 w-[80px]"></div>
         </section>
-        <section className="flex justify-between">
+        <section className="flex justify-between mt-4">
           <div className="flex justify-center items-center">
             <input
               value={newCategory}
@@ -215,20 +220,35 @@ const post = () => {
             />
           </div>
         </section>
-        <section className="h-32 border-solid">
+        <section className="h-32 border-solid mt-4">
           <div className="overflow-x-auto">
             <ul className="flex flex-row gap-2 w-full">
               {categories.map((categorydata, index) => (
                 <li
                   key={index}
                   className="inline-flex items-center h-8 px-4 bg-slate-400 text-white rounded-md text-sm whitespace-nowrap hover:cursor-pointer hover:bg-slate-200 hover:text-gray-700"
-                  onClick={() => setCategories([categorydata])}>
+                  onClick={() => {
+                    if (!selectedCategories.includes(categorydata)) {
+                      setSelectedCategories([...selectedCategories, categorydata]);
+                    }
+                  }}>
                   {categorydata}
                 </li>
               ))}
             </ul>
           </div>
-          <div>{selectedCategory}</div>
+        </section>
+        <section className="mt-4">
+          <ul className="flex flex-row gap-2 mt-2 overflow-x-scroll">
+            {selectedCategories.map((category, index) => (
+              <li
+                key={index}
+                className="inline-flex items-center h-8 px-4 bg-green-500 text-white rounded-md text-sm whitespace-nowrap hover:bg-green-300 hover:text-gray-700 hover:cursor-pointer"
+                onClick={removeCategory}>
+                {category}
+              </li>
+            ))}
+          </ul>
         </section>
         <section className="w-full h-[100vh]">
           <div>

@@ -20,8 +20,6 @@ type Actions = {
 
   updateTitle: (title: State['title']) => void;
   updateContent: (content: State['content']) => void;
-
-  setPostData: (data: Partial<State>) => void;
 };
 
 const postStore = create<State & Actions>((set) => ({
@@ -41,8 +39,6 @@ const postStore = create<State & Actions>((set) => ({
 
   updateTitle: (title) => set(() => ({ title: title })),
   updateContent: (content) => set(() => ({ content: content })),
-
-  setPostData: (data) => set(data),
 }));
 
 export default postStore;
