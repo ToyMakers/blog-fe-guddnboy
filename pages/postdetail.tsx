@@ -114,6 +114,7 @@ const PostDetail = () => {
       }
       alert('포스트가 수정되었습니다.');
       setIsEditing(!isEditing);
+      updatePost();
     } catch (error) {
       console.error(error);
       alert('포스트 수정에 실패했습니다.: catch문 실행됨');
@@ -124,6 +125,32 @@ const PostDetail = () => {
     setTitle(newTitle);
     setCategories(newCategories);
     setContent(newContent);
+  };
+
+  const deletePost = async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      navigateTo('/login');
+      return;
+    }
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/posts/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error('포스트 삭제에 실패했습니다.: response.ok가 false입니다.');
+      }
+      alert('포스트가 삭제되었습니다.');
+      navigateTo('/home');
+    } catch (error) {
+      console.error(error);
+      alert('포스트 삭제에 실패했습니다.: catch문 실행됨');
+    }
   };
 
   useEffect(() => {
@@ -168,7 +195,10 @@ const PostDetail = () => {
                   수정
                 </button>
               )}
-              <button className="w-11 text-gray-600 text-lg" onClick={handleBack}>
+              <button className="w-24 text-gray-600 text-lg" onClick={deletePost}>
+                삭제
+              </button>
+              <button className="w-24 text-gray-600 text-lg" onClick={handleBack}>
                 목록
               </button>
             </div>
