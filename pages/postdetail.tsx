@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Header from '../components/Header';
 import postStore from '../store/postStore';
 import userStore from '@/store/userStore';
-import { get } from 'http';
 
 const PostDetail = () => {
   const router = useRouter();
